@@ -91,9 +91,15 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.9, type: "spring", bounce: 0.4 }}
-          className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto px-4 sm:px-0"
+          className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto px-6 sm:px-0"
         >
-          <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+          <motion.div 
+            whileHover={{ scale: 1.05, y: -5 }} 
+            whileTap={{ scale: 0.95 }} 
+            animate={{ scale: [1, 1.02, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-full sm:w-auto"
+          >
             <Link 
               to="/gallery"
               className="block w-full sm:w-auto px-8 py-4 sm:py-3 text-center bg-gold text-darkPurple font-body font-bold rounded-full uppercase tracking-wider shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-shadow duration-300 relative overflow-hidden group"

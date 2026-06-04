@@ -122,25 +122,21 @@ const ServiceCard = ({ service, index }) => {
           </ul>
 
           {/* Bottom CTA hint */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.3 }}
-            className="mt-6 pt-4 border-t border-gold/10 w-full"
+          <div
+            className="mt-6 pt-4 border-t border-gold/10 w-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0"
           >
             <Link
               to="/contact"
               className="text-gold font-body text-xs uppercase tracking-[0.2em] hover:text-lightGold transition-colors duration-300 flex items-center justify-center gap-2"
             >
               {service.bookNow}
-              <motion.span
-                animate={isHovered ? { x: [0, 5, 0] } : {}}
-                transition={{ duration: 1, repeat: Infinity }}
+              <span
+                className="inline-block transform md:group-hover:translate-x-1 transition-transform duration-300"
               >
                 →
-              </motion.span>
+              </span>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>

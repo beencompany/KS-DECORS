@@ -4,6 +4,26 @@ import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+const menuVariants = {
+  hidden: { opacity: 0, height: 0 },
+  visible: { 
+    opacity: 1, 
+    height: 'auto',
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+  },
+  exit: { 
+    opacity: 0, 
+    height: 0,
+    transition: { staggerChildren: 0.05, staggerDirection: -1 }
+  }
+};
+
+const linkVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } }
+};
+
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
@@ -126,14 +146,16 @@ const Navbar = () => {
         {isOpen && (
             <motion.div
               key="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-royal/95 backdrop-blur-xl border-t border-gold/20"
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="md:hidden bg-royal/95 backdrop-blur-xl border-t border-gold/20 overflow-hidden"
             >
               <div className="flex flex-col items-center py-8 space-y-6">
                 {navLinks.map((link) => (
-                  <a
+                  <motion.a
+                    variants={linkVariants}
                     key={link.name}
                     href={link.path}
                     onClick={(e) => handleNavClick(e, link.path)}
@@ -144,7 +166,7 @@ const Navbar = () => {
                     }`}
                   >
                     {link.name}
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </motion.div>

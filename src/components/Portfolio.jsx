@@ -101,11 +101,11 @@ const Portfolio = () => {
                 />
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-darkPurple/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                  <span className="text-gold border border-gold px-6 py-2 rounded-full font-body text-sm uppercase tracking-wider translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-darkPurple/90 via-darkPurple/40 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end md:justify-center pb-6 md:pb-0">
+                  <span className="text-gold border border-gold px-6 py-2 rounded-full font-body text-sm uppercase tracking-wider translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 bg-darkPurple/50 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none mb-2 md:mb-0">
                     {t('portfolio.view', 'View')}
                   </span>
-                  <p className="text-cream mt-3 font-luxury text-xl tracking-wider">{item.category}</p>
+                  <p className="text-cream mt-1 md:mt-3 font-luxury text-xl tracking-wider drop-shadow-md">{item.category}</p>
                 </div>
               </motion.a>
             ))}
