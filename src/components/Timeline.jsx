@@ -1,13 +1,17 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Timeline = () => {
-  const steps = [
+  const { t } = useTranslation();
+  const defaultSteps = [
     { title: "Consultation", desc: "Understanding your vision and requirements." },
     { title: "Planning", desc: "Creating a detailed blueprint and concept." },
     { title: "Design Approval", desc: "Reviewing and finalizing the luxury designs." },
     { title: "Execution", desc: "Flawless setup by our experienced team." },
     { title: "Successful Event", desc: "Delivering an unforgettable royal experience." },
   ];
+  const translatedSteps = t('timeline.steps', { returnObjects: true });
+  const steps = Array.isArray(translatedSteps) ? translatedSteps : defaultSteps;
 
   return (
     <section className="py-24 bg-royal relative overflow-hidden">
@@ -15,9 +19,9 @@ const Timeline = () => {
         
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-4">
-            Our Process
+            {t('timeline.title', 'Our Process')}
           </h2>
-          <p className="text-cream/80 font-body">From concept to a successful royal event.</p>
+          <p className="text-cream/80 font-body">{t('timeline.subtitle', 'From concept to a successful royal event.')}</p>
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -47,7 +51,7 @@ const Timeline = () => {
                       transition={{ duration: 0.6, delay: 0.2 }}
                       className="glass p-6 rounded-xl hover:border-gold/50 transition-colors w-full"
                     >
-                      <h4 className="text-xl font-luxury text-gold font-bold mb-2">Step {index + 1}: {step.title}</h4>
+                      <h4 className="text-xl font-luxury text-gold font-bold mb-2">{t('timeline.step', 'Step')} {index + 1}: {step.title}</h4>
                       <p className="text-cream/80 font-body text-sm">{step.desc}</p>
                     </motion.div>
                   </div>

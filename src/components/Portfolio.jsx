@@ -4,26 +4,36 @@ import LightGallery from 'lightgallery/react';
 import 'lightgallery/css/lightgallery.css';
 import 'lightgallery/css/lg-zoom.css';
 import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-rotate.css';
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgRotate from 'lightgallery/plugins/rotate';
+import { useTranslation } from 'react-i18next';
 
 const Portfolio = () => {
-  const [filter, setFilter] = useState('All');
+  const { t } = useTranslation();
+  const [filterIndex, setFilterIndex] = useState(0);
 
-  const categories = ['All', 'Wedding', 'Reception', 'Birthday', 'Corporate', 'Stage', 'Floral'];
+  const translatedCategories = t('portfolio.categories', { returnObjects: true });
+  const categories = Array.isArray(translatedCategories) 
+    ? translatedCategories 
+    : ['All', 'Wedding', 'Reception', 'Birthday', 'Corporate', 'Stage', 'Floral'];
 
-  const portfolioData = [
-    { id: 1, category: 'Wedding', src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=400&auto=format&fit=crop' },
-    { id: 2, category: 'Stage', src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=400&auto=format&fit=crop' },
-    { id: 3, category: 'Floral', src: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=400&auto=format&fit=crop' },
-    { id: 4, category: 'Birthday', src: 'https://images.unsplash.com/photo-1530103862676-de8892b12fa0?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1530103862676-de8892b12fa0?q=80&w=400&auto=format&fit=crop' },
-    { id: 5, category: 'Corporate', src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=400&auto=format&fit=crop' },
-    { id: 6, category: 'Reception', src: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1000&auto=format&fit=crop', thumb: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=400&auto=format&fit=crop' },
-  ];
+  const imageModules = import.meta.glob('../assets/images/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const imagePaths = Object.values(imageModules);
+  
+  const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
-  const filteredData = filter === 'All' 
+  const portfolioData = imagePaths.map((src, index) => ({
+    id: index + 1,
+    category: getCategory(index),
+    src: src,
+    thumb: src
+  }));
+
+  const filteredData = filterIndex === 0 
     ? portfolioData 
-    : portfolioData.filter(item => item.category === filter);
+    : portfolioData.filter(item => item.category === categories[filterIndex]);
 
   return (
     <section id="gallery" className="py-24 bg-darkPurple">
@@ -36,7 +46,7 @@ const Portfolio = () => {
             viewport={{ once: true }}
             className="text-gold font-body uppercase tracking-widest text-sm mb-2"
           >
-            Our Masterpieces
+            {t('portfolio.subtitle', 'Our Masterpieces')}
           </motion.h3>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -45,7 +55,7 @@ const Portfolio = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-luxury text-cream font-bold"
           >
-            Premium Portfolio Gallery
+            {t('portfolio.title', 'Premium Portfolio Gallery')}
           </motion.h2>
         </div>
 
@@ -54,9 +64,9 @@ const Portfolio = () => {
           {categories.map((cat, index) => (
             <button
               key={index}
-              onClick={() => setFilter(cat)}
+              onClick={() => setFilterIndex(index)}
               className={`px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-body text-xs sm:text-sm tracking-wide transition-all duration-300 ${
-                filter === cat 
+                filterIndex === index 
                   ? 'bg-gold text-darkPurple font-bold shadow-[0_0_15px_rgba(212,175,55,0.4)]' 
                   : 'bg-royal text-cream hover:text-gold border border-royal hover:border-gold/50'
               }`}
@@ -69,31 +79,31 @@ const Portfolio = () => {
         {/* Gallery Grid */}
         <LightGallery
           speed={500}
-          plugins={[lgZoom, lgThumbnail]}
-          elementClassNames="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          plugins={[lgZoom, lgThumbnail, lgRotate]}
+          elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
         >
-          <AnimatePresence>
-            {filteredData.map((item) => (
+          <AnimatePresence mode="popLayout">
+            {filteredData.map((item, index) => (
               <motion.a
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.5, delay: index * 0.05, type: 'spring', stiffness: 100 }}
                 key={item.id}
                 href={item.src}
-                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer block border-2 border-transparent hover:border-gold/50 transition-colors"
+                className="group relative overflow-hidden rounded-xl cursor-pointer block border-2 border-transparent hover:border-gold/50 transition-colors break-inside-avoid"
               >
                 <img 
                   src={item.thumb} 
                   alt={item.category} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-darkPurple/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
                   <span className="text-gold border border-gold px-6 py-2 rounded-full font-body text-sm uppercase tracking-wider translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    View
+                    {t('portfolio.view', 'View')}
                   </span>
                   <p className="text-cream mt-3 font-luxury text-xl tracking-wider">{item.category}</p>
                 </div>

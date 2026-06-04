@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "gallery": "Gallery",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "hero": {
+    "subtitle": "KS DECORS",
+    "title1": "Transforming Celebrations",
+    "title2": "Into Royal Experiences",
+    "description": "Luxury Wedding & Event Decorations",
+    "cta1": "View Portfolio",
+    "cta2": "Contact Us"
+  },
+  "about": {
+    "subtitle": "About KS Decors",
+    "title1": "We Decorate Your",
+    "title2": "Dreams",
+    "desc1": "With years of experience in the event decoration industry, KS Decors has established itself as a premier luxury decoration company in Mayiladuthurai and beyond.",
+    "desc2": "Our founder, Vignesh, started with a simple vision: to transform ordinary spaces into extraordinary royal experiences. Today, we specialize in creating breathtaking environments for weddings, corporate events, and milestone celebrations.",
+    "services": [
+      "Wedding Decorations",
+      "Stage Decorations",
+      "Birthday Decorations",
+      "Corporate Events",
+      "Floral Arrangements",
+      "Theme Parties"
+    ],
+    "cta": "Discover Our Services ⟶"
+  },
+  "services": {
+    "subtitle": "What We Do",
+    "title1": "Our",
+    "title2": "Premium",
+    "title3": "Services",
+    "desc": "Elevating every celebration with royal elegance and timeless charm",
+    "book_now": "Book Now",
+    "items": [
+      {
+        "title": "Wedding Decor",
+        "tagline": "Your dream wedding, our masterpiece",
+        "list": ["Mandap Decoration", "Flower Decoration", "Reception Setup", "Entry Arch Design", "Luxury Stage Design"]
+      },
+      {
+        "title": "Birthday Decor",
+        "tagline": "Make every birthday unforgettable",
+        "list": ["Balloon Decoration", "Kids Theme Setup", "Customized Concepts", "Photo Booths", "Dessert Table Setup"]
+      },
+      {
+        "title": "Corporate Events",
+        "tagline": "Impress your guests with elegance",
+        "list": ["Conferences", "Product Launches", "Business Meetings", "Gala Dinners", "Award Ceremonies"]
+      },
+      {
+        "title": "Floral Decor",
+        "tagline": "Nature's beauty in every petal",
+        "list": ["Fresh Flowers", "Premium Floral Designs", "Stage Floral Setup", "Table Centerpieces", "Bridal Bouquets"]
+      }
+    ]
+  },
+  "portfolio": {
+    "subtitle": "Our Masterpieces",
+    "title": "Premium Portfolio Gallery",
+    "categories": ["All", "Wedding", "Reception", "Birthday", "Corporate", "Stage", "Floral"],
+    "view": "View"
+  },
+  "stats": {
+    "events": "Events Completed",
+    "clients": "Happy Clients",
+    "experience": "Years Experience",
+    "corporate": "Corporate Events"
+  },
+  "timeline": {
+    "title": "Our Process",
+    "subtitle": "From concept to a successful royal event.",
+    "step": "Step",
+    "steps": [
+      { "title": "Consultation", "desc": "Understanding your vision and requirements." },
+      { "title": "Planning", "desc": "Creating a detailed blueprint and concept." },
+      { "title": "Design Approval", "desc": "Reviewing and finalizing the luxury designs." },
+      { "title": "Execution", "desc": "Flawless setup by our experienced team." },
+      { "title": "Successful Event", "desc": "Delivering an unforgettable royal experience." }
+    ]
+  },
+  "why": {
+    "subtitle": "Why Choose KS Decors",
+    "title1": "Excellence in Every",
+    "title2": "Detail",
+    "desc": "We don't just decorate venues; we create immersive environments that leave lasting impressions. Our commitment to luxury and perfection sets us apart.",
+    "features": [
+      { "title": "Creative Designs", "desc": "Unique luxury decoration concepts." },
+      { "title": "Experienced Team", "desc": "Professional event execution." },
+      { "title": "Premium Quality", "desc": "High-quality decoration materials." },
+      { "title": "Timely Delivery", "desc": "Perfect execution on schedule." },
+      { "title": "Affordable Luxury", "desc": "Luxury decoration at reasonable prices." },
+      { "title": "Customer Satisfaction", "desc": "Client-first approach always." }
+    ]
+  },
+  "testimonials": {
+    "subtitle": "Client Feedback",
+    "title": "Testimonials",
+    "reviews": [
+      { "text": "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations.", "name": "Priya & Rahul", "type": "Wedding Event" },
+      { "text": "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team.", "name": "TechNova Corp", "type": "Corporate Event" },
+      { "text": "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors!", "name": "Anita M.", "type": "Birthday Party" }
+    ]
+  },
+  "contact": {
+    "subtitle": "Get In Touch",
+    "title1": "Let's Create",
+    "title2": "Magic Together",
+    "desc": "Ready to transform your dream event into reality? Reach out to us today.",
+    "call_us": "Call Us",
+    "email": "Email",
+    "visit_us": "Visit Us",
+    "location": "Mayiladuthurai, Tamil Nadu",
+    "whatsapp": "Chat on WhatsApp",
+    "instagram": "Follow on Instagram"
+  },
+  "footer": {
+    "subtitle": "We Decorate Your Dreams",
+    "quick_links": "Quick Links",
+    "follow_us": "Follow Us",
+    "rights": "KS Decors. All rights reserved."
+  },
+  "loading": {
+    "title": "KS DECORS",
+    "subtitle": "We Decorate Your Dreams"
+  }
+}

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LoadingScreen = ({ onComplete }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const LoadingScreen = ({ onComplete }) => {
         className="flex flex-col items-center text-center"
       >
         <h1 className="text-4xl md:text-6xl font-luxury text-gradient font-bold mb-4 tracking-wider">
-          KS DECORS
+          {t('loading.title', 'KS DECORS')}
         </h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -36,7 +38,7 @@ const LoadingScreen = ({ onComplete }) => {
           transition={{ delay: 0.5, duration: 0.8 }}
           className="text-lightGold font-body tracking-[0.2em] uppercase text-sm md:text-base"
         >
-          We Decorate Your Dreams
+          {t('loading.subtitle', 'We Decorate Your Dreams')}
         </motion.p>
         
         {/* Shimmer line */}

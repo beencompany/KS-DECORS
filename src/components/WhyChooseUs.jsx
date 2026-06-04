@@ -1,39 +1,30 @@
 import { motion } from 'framer-motion';
 import { FaCrown, FaUserTie, FaGem, FaClock, FaTags, FaHeart } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+
+const featureConfig = [
+  { icon: <FaCrown /> },
+  { icon: <FaUserTie /> },
+  { icon: <FaGem /> },
+  { icon: <FaClock /> },
+  { icon: <FaTags /> },
+  { icon: <FaHeart /> }
+];
 
 const WhyChooseUs = () => {
-  const features = [
-    {
-      title: "Creative Designs",
-      desc: "Unique luxury decoration concepts.",
-      icon: <FaCrown />
-    },
-    {
-      title: "Experienced Team",
-      desc: "Professional event execution.",
-      icon: <FaUserTie />
-    },
-    {
-      title: "Premium Quality",
-      desc: "High-quality decoration materials.",
-      icon: <FaGem />
-    },
-    {
-      title: "Timely Delivery",
-      desc: "Perfect execution on schedule.",
-      icon: <FaClock />
-    },
-    {
-      title: "Affordable Luxury",
-      desc: "Luxury decoration at reasonable prices.",
-      icon: <FaTags />
-    },
-    {
-      title: "Customer Satisfaction",
-      desc: "Client-first approach always.",
-      icon: <FaHeart />
-    }
+  const { t } = useTranslation();
+  const defaultFeatures = [
+    { title: "Creative Designs", desc: "Unique luxury decoration concepts." },
+    { title: "Experienced Team", desc: "Professional event execution." },
+    { title: "Premium Quality", desc: "High-quality decoration materials." },
+    { title: "Timely Delivery", desc: "Perfect execution on schedule." },
+    { title: "Affordable Luxury", desc: "Luxury decoration at reasonable prices." },
+    { title: "Customer Satisfaction", desc: "Client-first approach always." }
   ];
+
+  const translatedFeatures = t('why.features', { returnObjects: true });
+  const featureData = Array.isArray(translatedFeatures) ? translatedFeatures : defaultFeatures;
+  const features = featureData.map((f, i) => ({ ...f, icon: featureConfig[i]?.icon }));
 
   return (
     <section className="py-24 bg-darkPurple relative overflow-hidden">
@@ -48,7 +39,7 @@ const WhyChooseUs = () => {
               viewport={{ once: true }}
               className="text-gold font-body uppercase tracking-widest text-sm mb-2"
             >
-              Why Choose KS Decors
+              {t('why.subtitle', 'Why Choose KS Decors')}
             </motion.h3>
             <motion.h2 
               initial={{ opacity: 0, x: -50 }}
@@ -57,7 +48,7 @@ const WhyChooseUs = () => {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-luxury text-cream font-bold leading-tight mb-6"
             >
-              Excellence in Every <span className="text-gradient">Detail</span>
+              {t('why.title1', 'Excellence in Every')} <span className="text-gradient">{t('why.title2', 'Detail')}</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, x: -50 }}
@@ -66,7 +57,7 @@ const WhyChooseUs = () => {
               transition={{ delay: 0.2 }}
               className="text-cream/80 font-body text-lg mb-8"
             >
-              We don't just decorate venues; we create immersive environments that leave lasting impressions. Our commitment to luxury and perfection sets us apart.
+              {t('why.desc', 'We don\'t just decorate venues; we create immersive environments that leave lasting impressions. Our commitment to luxury and perfection sets us apart.')}
             </motion.p>
           </div>
 

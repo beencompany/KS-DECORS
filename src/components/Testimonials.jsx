@@ -3,25 +3,18 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { FaQuoteLeft } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const Testimonials = () => {
-  const reviews = [
-    {
-      text: "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations.",
-      name: "Priya & Rahul",
-      type: "Wedding Event"
-    },
-    {
-      text: "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team.",
-      name: "TechNova Corp",
-      type: "Corporate Event"
-    },
-    {
-      text: "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors!",
-      name: "Anita M.",
-      type: "Birthday Party"
-    }
+  const { t } = useTranslation();
+  const defaultReviews = [
+    { text: "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations.", name: "Priya & Rahul", type: "Wedding Event" },
+    { text: "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team.", name: "TechNova Corp", type: "Corporate Event" },
+    { text: "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors!", name: "Anita M.", type: "Birthday Party" }
   ];
+
+  const translatedReviews = t('testimonials.reviews', { returnObjects: true });
+  const reviews = Array.isArray(translatedReviews) ? translatedReviews : defaultReviews;
 
   return (
     <section id="testimonials" className="py-24 bg-darkPurple relative overflow-hidden">
@@ -32,10 +25,10 @@ const Testimonials = () => {
       <div className="container mx-auto px-4 relative z-10 max-w-4xl text-center">
         
         <h3 className="text-gold font-body uppercase tracking-widest text-sm mb-2">
-          Client Feedback
+          {t('testimonials.subtitle', 'Client Feedback')}
         </h3>
         <h2 className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-16">
-          Testimonials
+          {t('testimonials.title', 'Testimonials')}
         </h2>
 
         <div className="glass p-6 md:p-12 rounded-3xl relative">

@@ -1,30 +1,6 @@
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaInstagram } from 'react-icons/fa';
-
-const contactItems = [
-  {
-    icon: FaPhoneAlt,
-    label: 'Call Us',
-    lines: [
-      { text: '+91 63839 75747', href: 'tel:+916383975747' },
-      { text: '+91 90804 67974', href: 'tel:+919080467974' },
-    ],
-  },
-  {
-    icon: FaEnvelope,
-    label: 'Email',
-    lines: [
-      { text: 'vignesh2000vd@gmail.com', href: 'mailto:vignesh2000vd@gmail.com' },
-    ],
-  },
-  {
-    icon: FaMapMarkerAlt,
-    label: 'Visit Us',
-    lines: [
-      { text: 'Mayiladuthurai, Tamil Nadu' },
-    ],
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 const containerVariants = {
   hidden: {},
@@ -44,6 +20,33 @@ const itemVariants = {
 };
 
 const Contact = () => {
+  const { t } = useTranslation();
+
+  const contactItems = [
+    {
+      icon: FaPhoneAlt,
+      label: t('contact.call_us', 'Call Us'),
+      lines: [
+        { text: '+91 63839 75747', href: 'tel:+916383975747' },
+        { text: '+91 90804 67974', href: 'tel:+919080467974' },
+      ],
+    },
+    {
+      icon: FaEnvelope,
+      label: t('contact.email', 'Email'),
+      lines: [
+        { text: 'vignesh2000vd@gmail.com', href: 'mailto:vignesh2000vd@gmail.com' },
+      ],
+    },
+    {
+      icon: FaMapMarkerAlt,
+      label: t('contact.visit_us', 'Visit Us'),
+      lines: [
+        { text: t('contact.location', 'Mayiladuthurai, Tamil Nadu') },
+      ],
+    },
+  ];
+
   return (
     <section id="contact" className="py-24 bg-royal relative overflow-hidden">
 
@@ -105,7 +108,7 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="text-gold font-body uppercase tracking-widest text-sm mb-2"
           >
-            Get In Touch
+            {t('contact.subtitle', 'Get In Touch')}
           </motion.h3>
 
           <motion.h2
@@ -115,7 +118,7 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-4"
           >
-            Let's Create <span className="text-gradient">Magic Together</span>
+            {t('contact.title1', "Let's Create")} <span className="text-gradient">{t('contact.title2', 'Magic Together')}</span>
           </motion.h2>
 
           <motion.p
@@ -125,7 +128,7 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-cream/70 font-body max-w-lg mx-auto"
           >
-            Ready to transform your dream event into reality? Reach out to us today.
+            {t('contact.desc', 'Ready to transform your dream event into reality? Reach out to us today.')}
           </motion.p>
         </div>
 
@@ -210,7 +213,7 @@ const Contact = () => {
             className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1ebd5a] text-white px-8 py-4 rounded-full font-body font-bold transition-all duration-300 shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:shadow-[0_0_35px_rgba(37,211,102,0.5)] relative overflow-hidden group"
           >
             <FaWhatsapp className="text-2xl relative z-10" />
-            <span className="relative z-10 tracking-wide">Chat on WhatsApp</span>
+            <span className="relative z-10 tracking-wide">{t('contact.whatsapp', 'Chat on WhatsApp')}</span>
             <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
           </motion.a>
 
@@ -224,7 +227,7 @@ const Contact = () => {
             className="w-full sm:w-auto flex items-center justify-center gap-3 border-2 border-gold text-gold hover:bg-gold hover:text-darkPurple px-8 py-4 rounded-full font-body font-bold transition-all duration-300 relative overflow-hidden group"
           >
             <FaInstagram className="text-2xl relative z-10" />
-            <span className="relative z-10 tracking-wide">Follow on Instagram</span>
+            <span className="relative z-10 tracking-wide">{t('contact.instagram', 'Follow on Instagram')}</span>
           </motion.a>
         </motion.div>
 

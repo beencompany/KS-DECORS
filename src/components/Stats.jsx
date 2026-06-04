@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useTranslation } from 'react-i18next';
 
 const Counter = ({ end, duration, inView }) => {
   const [count, setCount] = useState(0);
@@ -24,16 +25,17 @@ const Counter = ({ end, duration, inView }) => {
 };
 
 const Stats = () => {
+  const { t } = useTranslation();
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.5,
   });
 
   const statsData = [
-    { num: 500, suffix: "+", title: "Events Completed" },
-    { num: 200, suffix: "+", title: "Happy Clients" },
-    { num: 10, suffix: "+", title: "Years Experience" },
-    { num: 50, suffix: "+", title: "Corporate Events" },
+    { num: 500, suffix: "+", title: t('stats.events', 'Events Completed') },
+    { num: 200, suffix: "+", title: t('stats.clients', 'Happy Clients') },
+    { num: 10, suffix: "+", title: t('stats.experience', 'Years Experience') },
+    { num: 50, suffix: "+", title: t('stats.corporate', 'Corporate Events') },
   ];
 
   return (

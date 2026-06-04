@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+  const { t } = useTranslation();
   const [offsetY, setOffsetY] = useState(0);
 
   const handleScroll = () => {
@@ -63,7 +65,7 @@ const Hero = () => {
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-gold font-luxury text-xl md:text-3xl mb-4 tracking-[0.3em] uppercase"
         >
-          KS DECORS
+          {t('hero.subtitle')}
         </motion.h2>
 
         <motion.h1 
@@ -72,8 +74,8 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
           className="text-4xl md:text-7xl font-luxury text-cream font-bold leading-tight mb-6"
         >
-          Transforming Celebrations <br className="hidden md:block" />
-          <span className="text-gradient">Into Royal Experiences</span>
+          {t('hero.title1')} <br className="hidden md:block" />
+          <span className="text-gradient">{t('hero.title2')}</span>
         </motion.h1>
 
         <motion.p
@@ -82,7 +84,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-cream/80 font-body text-lg md:text-xl mb-12 max-w-2xl"
         >
-          Luxury Wedding & Event Decorations
+          {t('hero.description')}
         </motion.p>
 
         <motion.div 
@@ -96,7 +98,7 @@ const Hero = () => {
               to="/gallery"
               className="block w-full sm:w-auto px-8 py-4 sm:py-3 text-center bg-gold text-darkPurple font-body font-bold rounded-full uppercase tracking-wider shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-shadow duration-300 relative overflow-hidden group"
             >
-              <span className="relative z-10">View Portfolio</span>
+              <span className="relative z-10">{t('hero.cta1')}</span>
               <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
             </Link>
           </motion.div>
@@ -106,7 +108,7 @@ const Hero = () => {
               to="/contact"
               className="block w-full sm:w-auto px-8 py-4 sm:py-3 text-center border border-gold text-gold font-body font-bold rounded-full uppercase tracking-wider hover:bg-gold/10 transition-colors duration-300"
             >
-              Contact Us
+              {t('hero.cta2')}
             </Link>
           </motion.div>
         </motion.div>

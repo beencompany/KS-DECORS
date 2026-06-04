@@ -2,21 +2,28 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   
   const location = useLocation();
   const navigate = useNavigate();
 
+  const toggleLanguage = () => {
+    const newLang = i18n.language?.startsWith('ta') ? 'en' : 'ta';
+    i18n.changeLanguage(newLang);
+  };
+
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Testimonials', path: '/testimonials' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.home', 'Home'), path: '/' },
+    { name: t('nav.about', 'About'), path: '/about' },
+    { name: t('nav.services', 'Services'), path: '/services' },
+    { name: t('nav.gallery', 'Gallery'), path: '/gallery' },
+    { name: t('nav.testimonials', 'Testimonials'), path: '/testimonials' },
+    { name: t('nav.contact', 'Contact'), path: '/contact' },
   ];
 
   useEffect(() => {
@@ -82,15 +89,36 @@ const Navbar = () => {
               </a>
             );
           })}
+
+          {/* Language Toggle */}
+          <button 
+            onClick={toggleLanguage}
+            className="flex items-center space-x-1 border border-gold/50 rounded-full px-3 py-1 text-sm font-body text-cream hover:bg-gold/10 transition-colors"
+          >
+            <span className={!i18n.language?.startsWith('ta') ? "text-gold font-bold" : ""}>EN</span>
+            <span className="text-gold/50">|</span>
+            <span className={i18n.language?.startsWith('ta') ? "text-gold font-bold" : ""}>TA</span>
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-gold text-3xl focus:outline-none"
-        >
-          {isOpen ? <HiX /> : <HiMenuAlt3 />}
-        </button>
+        <div className="md:hidden flex items-center space-x-4">
+          <button 
+            onClick={toggleLanguage}
+            className="flex items-center space-x-1 border border-gold/50 rounded-full px-2 py-0.5 text-xs font-body text-cream hover:bg-gold/10 transition-colors"
+          >
+            <span className={!i18n.language?.startsWith('ta') ? "text-gold font-bold" : ""}>EN</span>
+            <span className="text-gold/50">|</span>
+            <span className={i18n.language?.startsWith('ta') ? "text-gold font-bold" : ""}>TA</span>
+          </button>
+          
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gold text-3xl focus:outline-none"
+          >
+            {isOpen ? <HiX /> : <HiMenuAlt3 />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}

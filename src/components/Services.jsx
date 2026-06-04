@@ -2,36 +2,14 @@ import { motion } from 'framer-motion';
 import { GiDiamondRing, GiBalloons, GiFlowers, GiTie } from 'react-icons/gi';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-const servicesData = [
-  {
-    title: "Wedding Decor",
-    IconComponent: GiDiamondRing,
-    tagline: "Your dream wedding, our masterpiece",
-    items: ["Mandap Decoration", "Flower Decoration", "Reception Setup", "Entry Arch Design", "Luxury Stage Design"],
-    accent: "from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent",
-  },
-  {
-    title: "Birthday Decor",
-    IconComponent: GiBalloons,
-    tagline: "Make every birthday unforgettable",
-    items: ["Balloon Decoration", "Kids Theme Setup", "Customized Concepts", "Photo Booths", "Dessert Table Setup"],
-    accent: "from-[#F6E27A]/20 via-[#F6E27A]/5 to-transparent",
-  },
-  {
-    title: "Corporate Events",
-    IconComponent: GiTie,
-    tagline: "Impress your guests with elegance",
-    items: ["Conferences", "Product Launches", "Business Meetings", "Gala Dinners", "Award Ceremonies"],
-    accent: "from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent",
-  },
-  {
-    title: "Floral Decor",
-    IconComponent: GiFlowers,
-    tagline: "Nature's beauty in every petal",
-    items: ["Fresh Flowers", "Premium Floral Designs", "Stage Floral Setup", "Table Centerpieces", "Bridal Bouquets"],
-    accent: "from-[#F6E27A]/20 via-[#F6E27A]/5 to-transparent",
-  },
+// Static accent colors and icons
+const serviceConfig = [
+  { IconComponent: GiDiamondRing, accent: "from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent" },
+  { IconComponent: GiBalloons, accent: "from-[#F6E27A]/20 via-[#F6E27A]/5 to-transparent" },
+  { IconComponent: GiTie, accent: "from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent" },
+  { IconComponent: GiFlowers, accent: "from-[#F6E27A]/20 via-[#F6E27A]/5 to-transparent" },
 ];
 
 const containerVariants = {
@@ -154,7 +132,7 @@ const ServiceCard = ({ service, index }) => {
               to="/contact"
               className="text-gold font-body text-xs uppercase tracking-[0.2em] hover:text-lightGold transition-colors duration-300 flex items-center justify-center gap-2"
             >
-              Book Now
+              {service.bookNow}
               <motion.span
                 animate={isHovered ? { x: [0, 5, 0] } : {}}
                 transition={{ duration: 1, repeat: Infinity }}
@@ -170,6 +148,27 @@ const ServiceCard = ({ service, index }) => {
 };
 
 const Services = () => {
+  const { t } = useTranslation();
+  
+  // Get translated service items array, fallback to default objects if not found
+  const translatedItems = t('services.items', { returnObjects: true });
+  const defaultItems = [
+    { title: "Wedding Decor", tagline: "Your dream wedding, our masterpiece", list: ["Mandap Decoration", "Flower Decoration", "Reception Setup", "Entry Arch Design", "Luxury Stage Design"] },
+    { title: "Birthday Decor", tagline: "Make every birthday unforgettable", list: ["Balloon Decoration", "Kids Theme Setup", "Customized Concepts", "Photo Booths", "Dessert Table Setup"] },
+    { title: "Corporate Events", tagline: "Impress your guests with elegance", list: ["Conferences", "Product Launches", "Business Meetings", "Gala Dinners", "Award Ceremonies"] },
+    { title: "Floral Decor", tagline: "Nature's beauty in every petal", list: ["Fresh Flowers", "Premium Floral Designs", "Stage Floral Setup", "Table Centerpieces", "Bridal Bouquets"] }
+  ];
+  
+  const itemsToUse = Array.isArray(translatedItems) ? translatedItems : defaultItems;
+
+  const servicesData = serviceConfig.map((config, index) => ({
+    ...config,
+    title: itemsToUse[index]?.title || defaultItems[index].title,
+    tagline: itemsToUse[index]?.tagline || defaultItems[index].tagline,
+    items: itemsToUse[index]?.list || defaultItems[index].list,
+    bookNow: t('services.book_now', 'Book Now')
+  }));
+
   return (
     <section id="services" className="py-24 bg-royal relative overflow-hidden">
 
@@ -214,7 +213,7 @@ const Services = () => {
             transition={{ duration: 0.6 }}
             className="text-gold font-body uppercase tracking-[0.3em] text-sm mb-3"
           >
-            What We Do
+            {t('services.subtitle', 'What We Do')}
           </motion.h3>
 
           <motion.h2
@@ -224,7 +223,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-luxury text-cream font-bold mb-4"
           >
-            Our <span className="text-gradient">Premium</span> Services
+            {t('services.title1', 'Our')} <span className="text-gradient">{t('services.title2', 'Premium')}</span> {t('services.title3', 'Services')}
           </motion.h2>
 
           <motion.p
@@ -234,7 +233,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-cream/60 font-body max-w-lg mx-auto text-lg"
           >
-            Elevating every celebration with royal elegance and timeless charm
+            {t('services.desc', 'Elevating every celebration with royal elegance and timeless charm')}
           </motion.p>
 
           {/* Decorative line under heading */}
