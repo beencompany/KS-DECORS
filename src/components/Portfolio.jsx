@@ -42,9 +42,9 @@ const Portfolio = () => {
 
   const dbPortfolioData = dbImages.map((img, index) => ({
     id: `db-${img._id}`,
-    category: getCategory(index), // Assign alternating categories for now
-    src: img.imageBase64,
-    thumb: img.imageBase64,
+    category: getCategory(index),
+    src: img.imageUrl || img.imageBase64,
+    thumb: img.imageUrl || img.imageBase64,
     title: img.name
   }));
 
