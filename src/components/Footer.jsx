@@ -24,10 +24,10 @@ const Footer = () => {
           <div>
             <Link
               to="/"
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer mb-4 justify-center md:justify-start"
+              className="flex items-center hover:opacity-80 transition-opacity cursor-pointer mb-4 justify-center md:justify-start"
             >
-              <img src={logoImg} alt="KS Decors Logo" className="h-14 md:h-16 w-auto object-contain drop-shadow-md" />
-              <span className="text-2xl font-luxury text-gold font-bold tracking-wider">KS DECORS</span>
+              <img src={logoImg} alt="KS Decors Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-md -ml-4" />
+              <span className="text-2xl md:text-3xl font-luxury text-gold font-bold tracking-wider -ml-4">KS DECORS</span>
             </Link>
             <p className="text-cream/70 font-body text-sm tracking-widest uppercase mt-4">
               {t('footer.subtitle', 'We Decorate Your Dreams')}
