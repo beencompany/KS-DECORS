@@ -93,15 +93,6 @@ const Contact = () => {
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: 'spring', bounce: 0.5 }}
-            className="w-16 h-16 mx-auto mb-6 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center"
-          >
-            <FaPhoneAlt className="text-gold text-xl" />
-          </motion.div>
 
           <motion.h3
             initial={{ opacity: 0, y: 20 }}
