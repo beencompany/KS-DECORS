@@ -1,6 +1,7 @@
 import { FaInstagram, FaFacebookF, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import logoImg from '../assets/images/logo.png';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -23,9 +24,9 @@ const Footer = () => {
           <div>
             <Link
               to="/"
-              className="text-3xl font-luxury text-gold font-bold mb-4 tracking-wider inline-block hover:text-lightGold transition-colors cursor-pointer"
+              className="inline-block hover:opacity-80 transition-opacity cursor-pointer mb-4"
             >
-              KS DECORS
+              <img src={logoImg} alt="KS Decors Logo" className="h-14 md:h-16 w-auto object-contain drop-shadow-md mx-auto md:mx-0" />
             </Link>
             <p className="text-cream/70 font-body text-sm tracking-widest uppercase mt-4">
               {t('footer.subtitle', 'We Decorate Your Dreams')}

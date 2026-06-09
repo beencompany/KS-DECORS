@@ -27,9 +27,9 @@ const Contact = () => {
       icon: FaPhoneAlt,
       label: t('contact.call_us', 'Call Us'),
       lines: [
-        { text: '+91 63839 75747', href: 'tel:+916383975747' },
         { text: '+91 90804 67974', href: 'tel:+919080467974' },
       ],
+      iconHref: 'tel:+919080467974'
     },
     {
       icon: FaEnvelope,
@@ -37,6 +37,7 @@ const Contact = () => {
       lines: [
         { text: 'vignesh2000vd@gmail.com', href: 'mailto:vignesh2000vd@gmail.com' },
       ],
+      iconHref: 'mailto:vignesh2000vd@gmail.com'
     },
     {
       icon: FaMapMarkerAlt,
@@ -44,6 +45,7 @@ const Contact = () => {
       lines: [
         { text: t('contact.location', 'Mayiladuthurai, Tamil Nadu') },
       ],
+      iconHref: 'https://maps.google.com/?q=Mayiladuthurai,Tamil+Nadu'
     },
   ];
 
@@ -154,14 +156,18 @@ const Contact = () => {
 
                 <div className="relative glass p-8 rounded-2xl text-center border border-gold/10 group-hover:border-gold/40 transition-all duration-500 h-full">
 
-                  {/* Animated icon circle */}
-                  <motion.div
+                  {/* Animated icon circle - now clickable */}
+                  <motion.a
+                    href={item.iconHref}
+                    target={item.iconHref.startsWith('http') ? '_blank' : undefined}
+                    rel={item.iconHref.startsWith('http') ? 'noreferrer' : undefined}
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.8, ease: 'easeInOut' }}
-                    className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center group-hover:shadow-[0_0_25px_rgba(212,175,55,0.3)] transition-shadow duration-500"
+                    className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center group-hover:shadow-[0_0_25px_rgba(212,175,55,0.3)] transition-shadow duration-500 cursor-pointer block"
+                    style={{ display: 'flex' }}
                   >
                     <Icon className="text-gold text-xl group-hover:text-lightGold transition-colors duration-300" />
-                  </motion.div>
+                  </motion.a>
 
                   {/* Label */}
                   <h4 className="text-lg font-luxury text-gold font-bold mb-3 tracking-wider uppercase">
@@ -205,7 +211,7 @@ const Contact = () => {
         >
           {/* WhatsApp Button */}
           <motion.a
-            href="https://wa.me/916383975747"
+            href="https://wa.me/919080467974"
             target="_blank"
             rel="noreferrer"
             whileHover={{ scale: 1.05, y: -3 }}

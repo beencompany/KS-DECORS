@@ -64,7 +64,19 @@
   "portfolio": {
     "subtitle": "Our Masterpieces",
     "title": "Premium Portfolio Gallery",
-    "categories": ["All", "Wedding", "Reception", "Birthday", "Corporate", "Stage", "Floral"],
+    "categories": {
+      "all": "All",
+      "wedding": "Wedding",
+      "reception": "Reception",
+      "mehendi_&_haldi": "Mehendi & Haldi",
+      "ear_piercing_ceremony": "Ear Piercing Ceremony",
+      "welcome_board": "Welcome Board",
+      "balloon_arch": "Balloon Arch",
+      "floral_arch": "Floral Arch",
+      "car_decoration": "Car Decoration",
+      "seer_thattu": "Seer Thattu",
+      "air_cooler_rental": "Air Cooler Rental"
+    },
     "view": "View"
   },
   "stats": {

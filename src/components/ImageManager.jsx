@@ -6,15 +6,15 @@ const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
 
 const SERVICES_LIST = [
   "Our Services",
-  "Wedding Decoration",
-  "Reception Decoration",
-  "Mehendi & Haldi Decoration",
-  "Ear Piercing Ceremony Decoration",
-  "Welcome Entrance Decoration",
-  "Balloon Arch Decoration",
-  "Floral Arch Decoration",
+  "Wedding",
+  "Reception",
+  "Mehendi & Haldi",
+  "Ear Piercing Ceremony",
+  "Welcome Board",
+  "Balloon Arch",
+  "Floral Arch",
   "Car Decoration",
-  "Seer Thattu Decoration",
+  "Seer Thattu",
   "Air Cooler Rental"
 ];
 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import logoImg from '../assets/images/logo.png';
 
 const menuVariants = {
   hidden: { opacity: 0, height: 0 },
@@ -80,9 +81,9 @@ const Navbar = () => {
         <a
           href="/"
           onClick={(e) => handleNavClick(e, '/')}
-          className="text-2xl md:text-3xl font-luxury text-gradient font-bold tracking-wider"
+          className="flex items-center"
         >
-          KS DECORS
+          <img src={logoImg} alt="KS Decors Logo" className="h-10 md:h-12 w-auto object-contain drop-shadow-lg" />
         </a>
 
         {/* Desktop Links */}

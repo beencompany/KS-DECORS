@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import logoImg from '../assets/images/logo.png';
 
 const LoadingScreen = ({ onComplete }) => {
   const { t } = useTranslation();
@@ -29,9 +30,9 @@ const LoadingScreen = ({ onComplete }) => {
         transition={{ duration: 1 }}
         className="flex flex-col items-center text-center"
       >
-        <h1 className="text-4xl md:text-6xl font-luxury text-gradient font-bold mb-4 tracking-wider">
-          {t('loading.title', 'KS DECORS')}
-        </h1>
+        <div className="mb-4">
+          <img src={logoImg} alt="KS Decors Logo" className="h-24 md:h-32 w-auto object-contain drop-shadow-2xl" />
+        </div>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

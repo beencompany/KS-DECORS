@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import aboutBg from '../assets/images/about_image_generated.png';
+
 const About = () => {
   const { t } = useTranslation();
   return (
@@ -15,11 +17,14 @@ const About = () => {
             <div className="relative z-10 rounded-2xl overflow-hidden border-2 border-gold/30 shadow-[0_0_30px_rgba(212,175,55,0.2)]">
               <div className="aspect-[4/5] bg-royal relative">
                 {/* Decorative Elements */}
-                <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-gold"></div>
-                <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-gold"></div>
+                <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-gold z-20"></div>
+                <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-gold z-20"></div>
                 
                 {/* Image Placeholder - Replace src with actual image */}
-                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center">
+                <div 
+                  className="w-full h-full bg-cover bg-center"
+                  style={{ backgroundImage: `url("${aboutBg}")` }}
+                >
                   <div className="absolute inset-0 bg-darkPurple/20"></div>
                 </div>
               </div>

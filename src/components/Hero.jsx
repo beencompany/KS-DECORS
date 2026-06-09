@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import heroBg from '../assets/images/hero_bg_generated.png';
+
 const Hero = () => {
   const { t } = useTranslation();
   const [offsetY, setOffsetY] = useState(0);
@@ -25,7 +27,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 z-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop')",
+          backgroundImage: `url("${heroBg}")`,
           transform: `translateY(${offsetY * 0.5}px)`
         }}
       />

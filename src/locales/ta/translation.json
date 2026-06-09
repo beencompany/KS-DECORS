@@ -64,7 +64,19 @@
   "portfolio": {
     "subtitle": "எங்கள் தலைசிறந்த படைப்புகள்",
     "title": "பிரீமியம் போர்ட்ஃபோலியோ தொகுப்பு",
-    "categories": ["அனைத்தும்", "திருமணம்", "வரவேற்பு", "பிறந்தநாள்", "கார்ப்பரேட்", "மேடை", "மலர்"],
+    "categories": {
+      "all": "அனைத்தும்",
+      "wedding": "திருமணம்",
+      "reception": "வரவேற்பு",
+      "mehendi_&_haldi": "மெஹந்தி & ஹல்தி",
+      "ear_piercing_ceremony": "காது குத்தும் விழா",
+      "welcome_board": "வரவேற்பு பலகை",
+      "balloon_arch": "பலூன் வளைவு",
+      "floral_arch": "மலர் வளைவு",
+      "car_decoration": "கார் அலங்காரம்",
+      "seer_thattu": "சீர் தட்டு",
+      "air_cooler_rental": "ஏர் கூலர் வாடகை"
+    },
     "view": "காண்க"
   },
   "stats": {
