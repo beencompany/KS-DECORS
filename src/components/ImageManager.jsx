@@ -185,7 +185,7 @@ export default function ImageManager() {
                 onChange={(e) => setService(e.target.value)}
                 className="w-full pl-12 pr-10 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all appearance-none text-darkPurple font-medium shadow-sm hover:bg-white"
               >
-                {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
+                {SERVICES_LIST.map(s => <option key={s} value={s} className="text-darkPurple bg-white">{s}</option>)}
               </select>
               <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <FiChevronDown className="text-gold/50" size={20} />
