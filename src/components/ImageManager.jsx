@@ -3,12 +3,28 @@ import React, { useState, useEffect } from 'react';
 // ✅ Paste your FREE ImgBB API key here: https://api.imgbb.com/
 const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
 
+const SERVICES_LIST = [
+  "Our Services",
+  "Wedding Decoration",
+  "Reception Decoration",
+  "Mehendi & Haldi Decoration",
+  "Ear Piercing Ceremony Decoration",
+  "Welcome Entrance Decoration",
+  "Balloon Arch Decoration",
+  "Floral Arch Decoration",
+  "Car Decoration",
+  "Seer Thattu Decoration",
+  "Air Cooler Rental"
+];
+
 export default function ImageManager() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
   const [error, setError] = useState('');
+  const [service, setService] = useState('Our Services');
+  const [amount, setAmount] = useState('');
 
   useEffect(() => {
     fetchImages();
@@ -82,6 +98,8 @@ export default function ImageManager() {
           imageUrl,
           deleteUrl,
           name: file.name,
+          service: service === 'Our Services' ? 'Uncategorized' : service,
+          amount: amount
         }),
       });
 
@@ -100,6 +118,8 @@ export default function ImageManager() {
 
     setUploading(false);
     setUploadProgress('');
+    setAmount(''); // Reset amount after upload
+    setService('Our Services'); // Reset service after upload
   };
 
   const handleDelete = async (id) => {
@@ -140,16 +160,40 @@ export default function ImageManager() {
       )}
 
       <div className="mb-10 p-8 bg-royal/5 border border-royal/10 border-dashed rounded-2xl text-center transition-all hover:bg-royal/10">
-        <label className="block text-sm font-luxury font-bold text-darkPurple mb-4 uppercase tracking-widest">
+        <label className="block text-sm font-luxury font-bold text-darkPurple mb-6 uppercase tracking-widest">
           Upload New Image
         </label>
-        <div className="max-w-sm mx-auto">
+        
+        <div className="max-w-md mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="text-left">
+            <label className="block text-xs font-bold text-darkPurple mb-2 uppercase tracking-widest">Service Category</label>
+            <select 
+              value={service} 
+              onChange={(e) => setService(e.target.value)}
+              className="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-gold"
+            >
+              {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          <div className="text-left">
+            <label className="block text-xs font-bold text-darkPurple mb-2 uppercase tracking-widest">Amount (₹)</label>
+            <input 
+              type="number" 
+              value={amount} 
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="e.g. 15000"
+              className="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-gold"
+            />
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto">
           <input
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
             disabled={uploading}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:uppercase file:tracking-wider file:bg-royal file:text-cream hover:file:bg-darkPurple cursor-pointer transition-all"
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:uppercase file:tracking-wider file:bg-royal file:text-cream hover:file:bg-darkPurple cursor-pointer transition-all mx-auto"
           />
         </div>
         {uploading && (
@@ -195,9 +239,12 @@ export default function ImageManager() {
                 </button>
               </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 pointer-events-none">
-                <p className="text-sm text-cream font-luxury truncate drop-shadow-md" title={img.name}>{img.name}</p>
-                <p className="text-xs text-gold/80 font-body mt-1">{new Date(img.createdAt).toLocaleDateString()}</p>
+              <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 pointer-events-none bg-gradient-to-t from-darkPurple via-darkPurple/80 to-transparent pt-12">
+                <p className="text-sm text-cream font-luxury truncate drop-shadow-md" title={img.name}>{img.service || 'Uncategorized'}</p>
+                <div className="flex justify-between items-center mt-1">
+                  <p className="text-xs text-gold/80 font-body">{new Date(img.createdAt).toLocaleDateString()}</p>
+                  {img.amount > 0 && <p className="text-xs font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/20">₹{img.amount}</p>}
+                </div>
               </div>
             </div>
           ))}

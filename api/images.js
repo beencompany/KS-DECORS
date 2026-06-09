@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       }
 
       case 'POST': {
-        const { imageUrl, deleteUrl, name, imageBase64 } = req.body;
+        const { imageUrl, deleteUrl, name, imageBase64, service, amount } = req.body;
 
         // Support both new (imageUrl) and old (imageBase64) formats
         if (!imageUrl && !imageBase64) {
@@ -39,6 +39,8 @@ export default async function handler(req, res) {
           imageBase64: imageBase64 || null,
           deleteUrl: deleteUrl || null,
           name: name || 'Untitled Image',
+          service: service || 'Other',
+          amount: Number(amount) || 0,
           createdAt: new Date()
         };
 
