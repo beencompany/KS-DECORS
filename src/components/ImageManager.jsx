@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiTag, FiDollarSign, FiChevronDown, FiUploadCloud } from 'react-icons/fi';
 
 // ✅ Paste your FREE ImgBB API key here: https://api.imgbb.com/
 const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
@@ -159,41 +160,63 @@ export default function ImageManager() {
         </div>
       )}
 
-      <div className="mb-10 p-8 bg-royal/5 border border-royal/10 border-dashed rounded-2xl text-center transition-all hover:bg-royal/10">
-        <label className="block text-sm font-luxury font-bold text-darkPurple mb-6 uppercase tracking-widest">
-          Upload New Image
-        </label>
+      <div className="mb-10 p-8 md:p-12 bg-gradient-to-br from-royal/5 to-gold/5 border border-gold/20 rounded-3xl text-center transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] -z-10"></div>
         
-        <div className="max-w-md mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <div className="text-left">
-            <label className="block text-xs font-bold text-darkPurple mb-2 uppercase tracking-widest">Service Category</label>
-            <select 
-              value={service} 
-              onChange={(e) => setService(e.target.value)}
-              className="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-gold"
-            >
-              {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-          </div>
-          <div className="text-left">
-            <label className="block text-xs font-bold text-darkPurple mb-2 uppercase tracking-widest">Amount (₹)</label>
-            <input 
-              type="number" 
-              value={amount} 
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="e.g. 15000"
-              className="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-gold"
-            />
+        <div className="flex justify-center mb-6">
+          <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center shadow-md border border-gold/30 text-gold group-hover:scale-110 transition-transform duration-500">
+            <FiUploadCloud size={28} />
           </div>
         </div>
 
-        <div className="max-w-md mx-auto">
+        <label className="block text-xl font-luxury font-bold text-darkPurple mb-8 uppercase tracking-widest drop-shadow-sm">
+          Upload New Masterpiece
+        </label>
+        
+        <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="text-left relative">
+            <label className="block text-xs font-luxury font-bold text-darkPurple/80 mb-2 uppercase tracking-widest pl-1">Service Category</label>
+            <div className="relative group/input">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within/input:text-gold">
+                <FiTag className="text-gold/70 group-focus-within/input:text-gold" size={18} />
+              </div>
+              <select 
+                value={service} 
+                onChange={(e) => setService(e.target.value)}
+                className="w-full pl-12 pr-10 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all appearance-none text-darkPurple font-medium shadow-sm hover:bg-white"
+              >
+                {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <FiChevronDown className="text-gold/50" size={20} />
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-left relative">
+            <label className="block text-xs font-luxury font-bold text-darkPurple/80 mb-2 uppercase tracking-widest pl-1">Amount (₹)</label>
+            <div className="relative group/input">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within/input:text-gold">
+                <FiDollarSign className="text-gold/70 group-focus-within/input:text-gold" size={18} />
+              </div>
+              <input 
+                type="number" 
+                value={amount} 
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="e.g. 15000"
+                className="w-full pl-12 pr-4 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all text-darkPurple font-medium shadow-sm hover:bg-white placeholder-gray-400"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto mt-4">
           <input
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
             disabled={uploading}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:uppercase file:tracking-wider file:bg-royal file:text-cream hover:file:bg-darkPurple cursor-pointer transition-all mx-auto"
+            className="block w-full text-sm text-gray-500 file:mr-6 file:py-4 file:px-8 file:rounded-full file:border-0 file:text-sm file:font-bold file:uppercase file:tracking-widest file:bg-gradient-to-r file:from-gold file:to-yellow-600 file:text-white hover:file:shadow-lg hover:file:scale-105 file:transition-all cursor-pointer mx-auto file:cursor-pointer"
           />
         </div>
         {uploading && (
