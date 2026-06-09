@@ -81,9 +81,10 @@ const Navbar = () => {
         <a
           href="/"
           onClick={(e) => handleNavClick(e, '/')}
-          className="flex items-center"
+          className="flex items-center gap-3"
         >
           <img src={logoImg} alt="KS Decors Logo" className="h-10 md:h-12 w-auto object-contain drop-shadow-lg" />
+          <span className="text-xl md:text-2xl font-luxury text-gradient font-bold tracking-wider">KS DECORS</span>
         </a>
 
         {/* Desktop Links */}

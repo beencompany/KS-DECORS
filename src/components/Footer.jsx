@@ -24,9 +24,10 @@ const Footer = () => {
           <div>
             <Link
               to="/"
-              className="inline-block hover:opacity-80 transition-opacity cursor-pointer mb-4"
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer mb-4 justify-center md:justify-start"
             >
-              <img src={logoImg} alt="KS Decors Logo" className="h-14 md:h-16 w-auto object-contain drop-shadow-md mx-auto md:mx-0" />
+              <img src={logoImg} alt="KS Decors Logo" className="h-14 md:h-16 w-auto object-contain drop-shadow-md" />
+              <span className="text-2xl font-luxury text-gold font-bold tracking-wider">KS DECORS</span>
             </Link>
             <p className="text-cream/70 font-body text-sm tracking-widest uppercase mt-4">
               {t('footer.subtitle', 'We Decorate Your Dreams')}
