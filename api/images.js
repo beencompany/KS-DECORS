@@ -2,7 +2,7 @@ import clientPromise from '../lib/mongodb.js';
 import { ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
-  // Set CORS headers for local development
+  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,21 +13,22 @@ export default async function handler(req, res) {
 
   try {
     if (!clientPromise) {
-      return res.status(500).json({ error: 'Database connection not initialized. Check your MONGODB_URI in .env' });
+      return res.status(500).json({ error: 'MONGODB_URI is not set in environment variables.' });
     }
 
     const client = await clientPromise;
-    const db = client.db('vick-dec'); // Customize database name if needed
+    const db = client.db('ks-decors');
     const collection = db.collection('images');
 
     switch (req.method) {
-      case 'GET':
+      case 'GET': {
         const images = await collection.find({}).sort({ createdAt: -1 }).toArray();
         return res.status(200).json(images);
+      }
 
-      case 'POST':
+      case 'POST': {
         const { imageBase64, name } = req.body;
-        
+
         if (!imageBase64) {
           return res.status(400).json({ error: 'imageBase64 is required' });
         }
@@ -40,8 +41,9 @@ export default async function handler(req, res) {
 
         const result = await collection.insertOne(newImage);
         return res.status(201).json({ ...newImage, _id: result.insertedId });
+      }
 
-      case 'DELETE':
+      case 'DELETE': {
         const { id } = req.body;
         if (!id) {
           return res.status(400).json({ error: 'Image ID is required' });
@@ -53,6 +55,7 @@ export default async function handler(req, res) {
         } else {
           return res.status(404).json({ error: 'Image not found' });
         }
+      }
 
       default:
         return res.status(405).json({ error: 'Method Not Allowed' });
