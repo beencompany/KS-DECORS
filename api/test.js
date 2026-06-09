@@ -9,6 +9,9 @@ export default async function handler(req, res) {
     const client = new MongoClient(uri, {
       serverSelectionTimeoutMS: 8000,
       connectTimeoutMS: 8000,
+      tls: true,
+      tlsAllowInvalidCertificates: false,
+      tlsAllowInvalidHostnames: false,
     });
     
     await client.connect();
@@ -18,17 +21,13 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       status: '✅ MongoDB connected successfully!',
-      database: 'ks-decors',
       collections: collections.map(c => c.name),
-      timestamp: new Date().toISOString()
     });
 
   } catch (error) {
     return res.status(500).json({
       status: '❌ MongoDB connection FAILED',
       error: error.message,
-      errorCode: error.code,
-      timestamp: new Date().toISOString()
     });
   }
 }
