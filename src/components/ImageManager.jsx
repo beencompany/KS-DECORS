@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
+// ✅ Paste your FREE ImgBB API key here: https://api.imgbb.com/
+const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
+
 export default function ImageManager() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -32,44 +36,70 @@ export default function ImageManager() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Check size (optional, but good practice. Max 16MB for MongoDB, let's limit to 5MB here)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('File is too large. Please upload an image smaller than 5MB.');
+    // Reset
+    setError('');
+    e.target.value = '';
+
+    if (IMGBB_API_KEY === 'YOUR_IMGBB_API_KEY_HERE') {
+      setError('Please set your ImgBB API key in ImageManager.jsx. Get it free at api.imgbb.com');
       return;
     }
 
-    setError('');
-    
-    // Convert file to Base64
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      const base64String = reader.result;
-      
-      setUploading(true);
-      try {
-        const res = await fetch('/api/images', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            imageBase64: base64String,
-            name: file.name
-          })
-        });
+    // File size check - ImgBB allows up to 32MB
+    if (file.size > 32 * 1024 * 1024) {
+      setError('File is too large. Maximum size is 32MB.');
+      return;
+    }
 
-        if (res.ok) {
-          const newImage = await res.json();
-          setImages([newImage, ...images]);
-        } else {
-          const errData = await res.json();
-          setError(errData.error || 'Failed to upload image');
-        }
-      } catch (err) {
-        console.error('Error uploading image:', err);
-        setError('Error uploading image');
+    setUploading(true);
+    setUploadProgress('Uploading to image host...');
+
+    try {
+      // Step 1: Upload image to ImgBB
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const imgbbData = await imgbbRes.json();
+
+      if (!imgbbData.success) {
+        throw new Error(imgbbData.error?.message || 'ImgBB upload failed');
       }
-      setUploading(false);
-    };
+
+      const imageUrl = imgbbData.data.url;
+      const deleteUrl = imgbbData.data.delete_url;
+      setUploadProgress('Saving to database...');
+
+      // Step 2: Save only the URL to MongoDB via our API
+      const res = await fetch('/api/images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageUrl,
+          deleteUrl,
+          name: file.name,
+        }),
+      });
+
+      if (res.ok) {
+        const newImage = await res.json();
+        setImages([newImage, ...images]);
+        setUploadProgress('');
+      } else {
+        const errData = await res.json();
+        setError(errData.error || 'Failed to save image to database');
+      }
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      setError(`Upload failed: ${err.message}`);
+    }
+
+    setUploading(false);
+    setUploadProgress('');
   };
 
   const handleDelete = async (id) => {
@@ -79,7 +109,7 @@ export default function ImageManager() {
       const res = await fetch('/api/images', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ id }),
       });
 
       if (res.ok) {
@@ -102,7 +132,7 @@ export default function ImageManager() {
           <p className="text-gray-500 text-sm font-body mt-1 uppercase tracking-widest">Add or Remove Images</p>
         </div>
       </div>
-      
+
       {error && (
         <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg text-sm font-medium">
           {error}
@@ -114,9 +144,9 @@ export default function ImageManager() {
           Upload New Image
         </label>
         <div className="max-w-sm mx-auto">
-          <input 
-            type="file" 
-            accept="image/*" 
+          <input
+            type="file"
+            accept="image/*"
             onChange={handleImageUpload}
             disabled={uploading}
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:uppercase file:tracking-wider file:bg-royal file:text-cream hover:file:bg-darkPurple cursor-pointer transition-all"
@@ -124,8 +154,8 @@ export default function ImageManager() {
         </div>
         {uploading && (
           <p className="text-sm font-medium text-gold mt-4 flex items-center justify-center gap-2">
-            <span className="animate-spin h-5 w-5 border-2 border-gold border-t-transparent rounded-full"></span> 
-            Uploading to Vault...
+            <span className="animate-spin h-5 w-5 border-2 border-gold border-t-transparent rounded-full"></span>
+            {uploadProgress || 'Uploading...'}
           </p>
         )}
       </div>
@@ -148,16 +178,16 @@ export default function ImageManager() {
           {images.map((img) => (
             <div key={img._id} className="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-gray-100">
               <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                <img 
-                  src={img.imageBase64} 
-                  alt={img.name} 
+                <img
+                  src={img.imageUrl || img.imageBase64}
+                  alt={img.name}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-darkPurple/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              
+
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
-                <button 
+                <button
                   onClick={() => handleDelete(img._id)}
                   className="bg-red-500/90 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold uppercase tracking-wider text-xs shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 backdrop-blur-sm"
                 >

@@ -27,14 +27,17 @@ export default async function handler(req, res) {
       }
 
       case 'POST': {
-        const { imageBase64, name } = req.body;
+        const { imageUrl, deleteUrl, name, imageBase64 } = req.body;
 
-        if (!imageBase64) {
-          return res.status(400).json({ error: 'imageBase64 is required' });
+        // Support both new (imageUrl) and old (imageBase64) formats
+        if (!imageUrl && !imageBase64) {
+          return res.status(400).json({ error: 'imageUrl is required' });
         }
 
         const newImage = {
-          imageBase64,
+          imageUrl: imageUrl || null,
+          imageBase64: imageBase64 || null,
+          deleteUrl: deleteUrl || null,
           name: name || 'Untitled Image',
           createdAt: new Date()
         };
