@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LightGallery from 'lightgallery/react';
 import 'lightgallery/css/lightgallery.css';
@@ -13,23 +13,50 @@ import { useTranslation } from 'react-i18next';
 const Portfolio = () => {
   const { t } = useTranslation();
   const [filterIndex, setFilterIndex] = useState(0);
+  const [dbImages, setDbImages] = useState([]);
 
   const translatedCategories = t('portfolio.categories', { returnObjects: true });
   const categories = Array.isArray(translatedCategories) 
     ? translatedCategories 
     : ['All', 'Wedding', 'Reception', 'Birthday', 'Corporate', 'Stage', 'Floral'];
 
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/images');
+        if (res.ok) {
+          const data = await res.json();
+          setDbImages(data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch gallery images', err);
+      }
+    };
+    fetchImages();
+  }, []);
+
   const imageModules = import.meta.glob('../assets/images/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
   const imagePaths = Object.values(imageModules);
   
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
-  const portfolioData = imagePaths.map((src, index) => ({
-    id: index + 1,
-    category: getCategory(index),
-    src: src,
-    thumb: src
+  const dbPortfolioData = dbImages.map((img, index) => ({
+    id: `db-${img._id}`,
+    category: getCategory(index), // Assign alternating categories for now
+    src: img.imageBase64,
+    thumb: img.imageBase64,
+    title: img.name
   }));
+
+  const localPortfolioData = imagePaths.map((src, index) => ({
+    id: index + 1,
+    category: getCategory(index + dbImages.length),
+    src: src,
+    thumb: src,
+    title: 'KS Decors'
+  }));
+
+  const portfolioData = [...dbPortfolioData, ...localPortfolioData];
 
   const filteredData = filterIndex === 0 
     ? portfolioData 

@@ -2,16 +2,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { FaQuoteLeft } from 'react-icons/fa';
+import { FaQuoteLeft, FaLock } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import AdminModal from './AdminModal';
 
 const Testimonials = () => {
   const { t } = useTranslation();
   const defaultReviews = [
     { text: "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations.", name: "Priya & Rahul", type: "Wedding Event" },
-    { text: "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team.", name: "TechNova Corp", type: "Corporate Event" },
     { text: "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors!", name: "Anita M.", type: "Birthday Party" }
   ];
+
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const translatedReviews = t('testimonials.reviews', { returnObjects: true });
   const reviews = Array.isArray(translatedReviews) ? translatedReviews : defaultReviews;
@@ -62,7 +65,19 @@ const Testimonials = () => {
           </Swiper>
         </div>
 
+        {/* Admin Manage Button */}
+        <div className="mt-12 text-center relative z-10">
+          <button 
+            onClick={() => setIsAdminModalOpen(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-cream/70 hover:text-gold rounded-full transition-all duration-300 text-sm font-body uppercase tracking-wider backdrop-blur-sm shadow-xl"
+          >
+            <FaLock size={12} /> Manage Gallery
+          </button>
+        </div>
+
       </div>
+
+      <AdminModal isOpen={isAdminModalOpen} onClose={() => setIsAdminModalOpen(false)} />
     </section>
   );
 };
