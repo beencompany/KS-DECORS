@@ -43,9 +43,9 @@ const Contact = () => {
       icon: FaMapMarkerAlt,
       label: t('contact.visit_us', 'Visit Us'),
       lines: [
-        { text: t('contact.location', 'Mayiladuthurai, Tamil Nadu') },
+        { text: t('contact.location', 'Mayiladuthurai District Collectorate, Tamil Nadu 609305'), href: 'https://maps.google.com/?q=Mayiladuthurai+District+Collectorate,+Tamil+Nadu+609305' },
       ],
-      iconHref: 'https://maps.google.com/?q=Mayiladuthurai,Tamil+Nadu'
+      iconHref: 'https://maps.google.com/?q=Mayiladuthurai+District+Collectorate,+Tamil+Nadu+609305'
     },
   ];
 

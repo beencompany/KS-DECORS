@@ -36,9 +36,9 @@ const Testimonials = () => {
           <Swiper
             modules={[Autoplay, Pagination]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
+            pagination={{ clickable: true, el: '.custom-testimonial-pagination' }}
             loop={true}
-            className="testimonial-swiper pb-12 mt-6 md:mt-0"
+            className="testimonial-swiper mt-6 md:mt-0"
           >
             {reviews.map((review, index) => (
               <SwiperSlide key={index}>
@@ -60,6 +60,18 @@ const Testimonials = () => {
             ))}
           </Swiper>
         </div>
+
+        {/* Custom Pagination Container outside the box */}
+        <div 
+          className="custom-testimonial-pagination mt-8 flex justify-center gap-2"
+          style={{
+            '--swiper-pagination-color': '#D4AF37',
+            '--swiper-pagination-bullet-inactive-color': '#D4AF37',
+            '--swiper-pagination-bullet-inactive-opacity': '0.3',
+            position: 'relative',
+            bottom: 'auto'
+          }}
+        ></div>
 
       </div>
     </section>

@@ -5,7 +5,7 @@ import logoImg from '../assets/images/logo.png';
 
 const Footer = () => {
   const { t } = useTranslation();
-  
+
   const footerLinks = [
     { name: t('nav.home', 'Home'), path: '/' },
     { name: t('nav.about', 'About'), path: '/about' },
@@ -19,7 +19,7 @@ const Footer = () => {
     <footer className="bg-darkPurple border-t border-gold/20 pt-16 pb-8">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left mb-12">
-          
+
           {/* Left */}
           <div>
             <Link

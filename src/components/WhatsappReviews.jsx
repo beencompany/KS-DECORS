@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { FaWhatsapp, FaCheckDouble } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
 
 // Dynamically import all images from the ref folder
 const imagesContext = import.meta.glob('../assets/ref/*.{png,jpg,jpeg}', { eager: true });
@@ -9,32 +12,13 @@ const referralImages = Object.values(imagesContext).map((module) => module.defau
 const WhatsappReviews = () => {
   const { t } = useTranslation();
 
-  const translatedChats = t('whatsapp.chats', { returnObjects: true });
-  const defaultChats = [
-    { time: "10:45 AM", message: "Hi Vignesh! Just wanted to say a huge thank you for the amazing wedding stage decoration. Everyone loved the premium floral setup! You are definitely the best decorators in Mayiladuthurai. 🙌✨" },
-    { time: "02:30 PM", message: "The corporate event setup was flawless. Very professional and luxury finish. Looking forward to booking you again!" },
-    { time: "06:15 PM", message: "Thanks for the magical birthday decor for my daughter! The balloon arch and dessert table were stunning. ❤️🎂" }
-  ];
-
-  const chats = Array.isArray(translatedChats) ? translatedChats : defaultChats;
-
   return (
     <section id="whatsapp-reviews" className="py-24 bg-darkPurple relative overflow-hidden">
       
-      {/* Inline styles for scrolling animation */}
       <style>
         {`
-          @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-scroll-left {
-            display: flex;
-            width: fit-content;
-            animation: scroll-left 20s linear infinite;
-          }
-          .animate-scroll-left:hover {
-            animation-play-state: paused;
+          .referral-swiper .swiper-wrapper {
+            transition-timing-function: linear !important;
           }
         `}
       </style>
@@ -74,21 +58,30 @@ const WhatsappReviews = () => {
             <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 z-10 bg-gradient-to-r from-darkPurple to-transparent pointer-events-none" />
             <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 z-10 bg-gradient-to-l from-darkPurple to-transparent pointer-events-none" />
             
-            <div className="animate-scroll-left gap-4 pl-4 items-center">
-              {/* Duplicate array for seamless infinite scroll */}
+            <Swiper
+              modules={[Autoplay]}
+              autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              speed={4000}
+              loop={true}
+              slidesPerView="auto"
+              spaceBetween={16}
+              className="referral-swiper"
+              grabCursor={true}
+            >
               {[...referralImages, ...referralImages].map((img, index) => (
-                <div 
-                  key={index} 
-                  className="w-32 md:w-40 shrink-0 rounded-2xl border-[3px] border-gold/80 shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] hover:border-gold transition-all duration-500 cursor-pointer overflow-hidden transform hover:-translate-y-2"
-                >
-                  <img 
-                    src={img} 
-                    alt={`Client Referral ${index}`} 
-                    className="w-full h-auto object-cover hover:scale-110 transition-transform duration-500" 
-                  />
-                </div>
+                <SwiperSlide key={index} style={{ width: 'auto' }}>
+                  <div 
+                    className="w-32 md:w-40 shrink-0 rounded-2xl border-[3px] border-gold/80 shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] hover:border-gold transition-all duration-500 overflow-hidden transform hover:-translate-y-2 mt-4 mb-8 mx-1"
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Client Referral ${index}`} 
+                      className="w-full h-auto object-cover hover:scale-110 transition-transform duration-500 pointer-events-none" 
+                    />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
 

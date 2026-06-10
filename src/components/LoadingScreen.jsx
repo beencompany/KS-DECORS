@@ -41,10 +41,10 @@ const LoadingScreen = ({ onComplete }) => {
         >
           {t('loading.subtitle', 'We Decorate Your Dreams')}
         </motion.p>
-        
+
         {/* Shimmer line */}
         <div className="w-24 h-px bg-darkPurple relative overflow-hidden mt-6 mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
             transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}

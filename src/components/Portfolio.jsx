@@ -18,13 +18,11 @@ const Portfolio = () => {
 
   const categories = [
     'All',
-    'Wedding',
-    'Reception',
-    'Mehendi & Haldi',
-    'Ear Piercing Ceremony',
+    'Birthday',
+    'Wedding & Reception',
+    'Manchal Neeratu Vizha',
     'Welcome Board',
-    'Balloon Arch',
-    'Floral Arch',
+    'Arches',
     'Car Decoration',
     'Seer Thattu',
     'Air Cooler Rental'
@@ -47,8 +45,14 @@ const Portfolio = () => {
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
-  const imageModules = import.meta.glob('../assets/images/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const imagePaths = Object.values(imageModules);
+  const carModules = import.meta.glob('../assets/car/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const weddingModules = import.meta.glob('../assets/wedding/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const thatuModules = import.meta.glob('../assets/thatu/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const manchalModules = import.meta.glob('../assets/manchalneratuvila/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const nameBoardModules = import.meta.glob('../assets/name-board/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const airCoolerModules = import.meta.glob('../assets/aircoller/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const archModules = import.meta.glob('../assets/arch/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
+  const birthdayModules = import.meta.glob('../assets/birthday/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
 
   const dbPortfolioData = dbImages.map((img, index) => ({
     id: `db-${img._id}`,
@@ -56,25 +60,55 @@ const Portfolio = () => {
     src: img.imageUrl || img.imageBase64,
     thumb: img.imageUrl || img.imageBase64,
     title: img.name,
-    amount: img.amount || 0
+    amount: 0
   }));
 
-  const dummyAmounts = [15000, 25000, 5000, 3000, 12000, 8000, 45000, 18000, 2000, 4000];
+  const createLocalData = (modules, categoryName) => {
+    return Object.values(modules).map((src, index) => ({
+      id: `local-${categoryName}-${index}`,
+      category: categoryName,
+      src: src,
+      thumb: src,
+      title: '',
+      amount: 0
+    }));
+  };
 
-  const localPortfolioData = imagePaths.map((src, index) => ({
-    id: `local-${index}`,
-    category: getCategory(index),
-    src: src,
-    thumb: src,
-    title: 'Premium Design',
-    amount: dummyAmounts[index % dummyAmounts.length]
-  }));
+  const localPortfolioData = [
+    ...createLocalData(carModules, 'Car Decoration'),
+    ...createLocalData(weddingModules, 'Wedding'),
+    ...createLocalData(thatuModules, 'Seer Thattu'),
+    ...createLocalData(manchalModules, 'Manchal Neeratu Vizha'),
+    ...createLocalData(nameBoardModules, 'Welcome Board'),
+    ...createLocalData(airCoolerModules, 'Air Cooler Rental'),
+    ...createLocalData(archModules, 'Arches'),
+    ...createLocalData(birthdayModules, 'Birthday')
+  ];
 
-  const portfolioData = [...dbPortfolioData, ...localPortfolioData];
+  const combinedData = [...dbPortfolioData, ...localPortfolioData];
+  const categoryCounters = {};
+  const portfolioData = combinedData.map(item => {
+    const catName = item.category || 'Design';
+    if (!categoryCounters[catName]) categoryCounters[catName] = 0;
+    categoryCounters[catName]++;
+    return { ...item, title: `${catName} ${categoryCounters[catName]}` };
+  });
 
   const filteredData = filterIndex === 0 
     ? portfolioData 
-    : portfolioData.filter(item => item.category === categories[filterIndex] || item.title === categories[filterIndex]);
+    : portfolioData.filter(item => {
+        const selectedCat = categories[filterIndex];
+        if (selectedCat === 'Arches') {
+          return item.category === 'Arches' || item.category === 'Balloon Arch' || item.category === 'Floral Arch';
+        }
+        if (selectedCat === 'Wedding & Reception') {
+          return item.category === 'Wedding & Reception' || item.category === 'Wedding' || item.category === 'Reception';
+        }
+        if (selectedCat === 'Manchal Neeratu Vizha') {
+          return item.category === 'Manchal Neeratu Vizha' || item.category === 'Age Ceremony Decoration' || item.category === 'Kathukuthu' || item.category === 'Valaigapu';
+        }
+        return item.category === selectedCat || item.title === selectedCat;
+      });
 
   return (
     <section id="gallery" className="relative py-28 min-h-screen overflow-hidden">
@@ -157,7 +191,12 @@ const Portfolio = () => {
           /* ===== ALL VIEW: Category Cards ===== */
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-7">
             {categories.slice(1).map((cat, index) => {
-              const catImages = portfolioData.filter(item => item.category === cat);
+              const catImages = portfolioData.filter(item => {
+                if (cat === 'Arches') return item.category === 'Arches' || item.category === 'Balloon Arch' || item.category === 'Floral Arch';
+                if (cat === 'Wedding & Reception') return item.category === 'Wedding & Reception' || item.category === 'Wedding' || item.category === 'Reception';
+                if (cat === 'Manchal Neeratu Vizha') return item.category === 'Manchal Neeratu Vizha' || item.category === 'Age Ceremony Decoration' || item.category === 'Kathukuthu' || item.category === 'Valaigapu';
+                return item.category === cat;
+              });
               const coverImage = catImages.length > 0 ? catImages[0].thumb : null;
               const imageCount = catImages.length;
 
@@ -262,9 +301,8 @@ const Portfolio = () => {
                       className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
                       data-sub-html={`
                         <div class="lg-custom-caption">
-                          <h4 class="lg-title">${item.title}</h4>
+                          ${item.title ? `<h4 class="lg-title">${item.title}</h4>` : ''}
                           <p class="lg-category">${t(`portfolio.categories.${item.category.toLowerCase().replace(/ /g, '_')}`, item.category)}</p>
-                          ${item.amount > 0 ? `<div class="lg-price">₹${item.amount.toLocaleString('en-IN')}</div>` : ''}
                         </div>
                       `}
                     >
@@ -279,15 +317,7 @@ const Portfolio = () => {
                       
                       {/* Info bar below image */}
                       <div className="px-4 pb-4 pt-1">
-                        <p className="text-cream font-luxury text-lg tracking-wider drop-shadow-md truncate">{item.title}</p>
-                        {item.amount > 0 && (
-                          <div className="flex items-center gap-2 mt-1.5">
-                            <div className="w-4 h-px bg-gold/40"></div>
-                            <p className="text-gold font-bold text-sm">
-                              ₹{item.amount.toLocaleString('en-IN')}
-                            </p>
-                          </div>
-                        )}
+                        {item.title && <p className="text-cream font-luxury text-lg tracking-wider drop-shadow-md truncate">{item.title}</p>}
                       </div>
 
                       {/* Hover overlay */}

@@ -6,10 +6,12 @@ const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
 
 const SERVICES_LIST = [
   "Our Services",
+  "Birthday",
   "Wedding",
   "Reception",
-  "Mehendi & Haldi",
-  "Ear Piercing Ceremony",
+  "Kathukuthu",
+  "Manchal Neeratu Vizha",
+  "Valaigapu",
   "Welcome Board",
   "Balloon Arch",
   "Floral Arch",
@@ -192,22 +194,6 @@ export default function ImageManager() {
               </div>
             </div>
           </div>
-          
-          <div className="text-left relative">
-            <label className="block text-xs font-luxury font-bold text-darkPurple/80 mb-2 uppercase tracking-widest pl-1">Amount (₹)</label>
-            <div className="relative group/input">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within/input:text-gold">
-                <FiDollarSign className="text-gold/70 group-focus-within/input:text-gold" size={18} />
-              </div>
-              <input 
-                type="number" 
-                value={amount} 
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="e.g. 15000"
-                className="w-full pl-12 pr-4 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all text-darkPurple font-medium shadow-sm hover:bg-white placeholder-gray-400"
-              />
-            </div>
-          </div>
         </div>
 
         <div className="max-w-md mx-auto mt-4">
@@ -266,7 +252,6 @@ export default function ImageManager() {
                 <p className="text-sm text-cream font-luxury truncate drop-shadow-md" title={img.name}>{img.service || 'Uncategorized'}</p>
                 <div className="flex justify-between items-center mt-1">
                   <p className="text-xs text-gold/80 font-body">{new Date(img.createdAt).toLocaleDateString()}</p>
-                  {img.amount > 0 && <p className="text-xs font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/20">₹{img.amount}</p>}
                 </div>
               </div>
             </div>
