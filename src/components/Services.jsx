@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { GiDiamondRing, GiBalloons, GiFlowers, GiTie } from 'react-icons/gi';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import AdminModal from './AdminModal';
 
 // Static accent colors and icons
 const serviceConfig = [
@@ -145,6 +146,29 @@ const ServiceCard = ({ service, index }) => {
 
 const Services = () => {
   const { t } = useTranslation();
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const clickTimeoutRef = useRef(null);
+
+  const handleSecretClick = () => {
+    // Clear the existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+
+    if (newCount >= 5) {
+      setIsAdminModalOpen(true);
+      setClickCount(0); // Reset after opening
+    } else {
+      // Set a timeout to reset the count if they stop clicking (e.g., 2 seconds)
+      clickTimeoutRef.current = setTimeout(() => {
+        setClickCount(0);
+      }, 2000);
+    }
+  };
   
   // Get translated service items array, fallback to default objects if not found
   const translatedItems = t('services.items', { returnObjects: true });
@@ -196,8 +220,10 @@ const Services = () => {
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, type: 'spring', bounce: 0.5 }}
-            className="w-16 h-16 mx-auto mb-6 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center"
+            className="w-16 h-16 mx-auto mb-6 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center cursor-pointer select-none"
+            onClick={handleSecretClick}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
             <span className="text-gold text-2xl">✦</span>
           </motion.div>
@@ -256,6 +282,8 @@ const Services = () => {
         </motion.div>
 
       </div>
+
+      <AdminModal isOpen={isAdminModalOpen} onClose={() => setIsAdminModalOpen(false)} />
     </section>
   );
 };

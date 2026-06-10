@@ -11,7 +11,7 @@
     "subtitle": "KS DECORS",
     "title1": "Transforming Celebrations",
     "title2": "Into Royal Experiences",
-    "description": "Luxury Wedding & Event Decorations",
+    "description": "Premium Luxury Wedding & Event Decorators in Mayiladuthurai",
     "cta1": "View Portfolio",
     "cta2": "Contact Us"
   },
@@ -19,8 +19,8 @@
     "subtitle": "About KS Decors",
     "title1": "We Decorate Your",
     "title2": "Dreams",
-    "desc1": "With years of experience in the event decoration industry, KS Decors has established itself as a premier luxury decoration company in Mayiladuthurai and beyond.",
-    "desc2": "Our founder, Vignesh, started with a simple vision: to transform ordinary spaces into extraordinary royal experiences. Today, we specialize in creating breathtaking environments for weddings, corporate events, and milestone celebrations.",
+    "desc1": "With years of expertise in the event decoration industry, KS Decors stands as the best premium luxury wedding decoration company in Mayiladuthurai and Tamil Nadu. We specialize in transforming venues with breathtaking floral and stage decors.",
+    "desc2": "Our founder, Vignesh, started with a simple vision: to turn ordinary spaces into extraordinary royal experiences. Today, we are the top choice for luxury weddings, corporate events, birthday parties, and milestone celebrations.",
     "services": [
       "Wedding Decorations",
       "Stage Decorations",
@@ -36,7 +36,7 @@
     "title1": "Our",
     "title2": "Premium",
     "title3": "Services",
-    "desc": "Elevating every celebration with royal elegance and timeless charm",
+    "desc": "Elevating every celebration with royal elegance, from traditional wedding mandaps to modern corporate setups. Your top event planners for every occasion.",
     "book_now": "Book Now",
     "items": [
       {
@@ -101,7 +101,7 @@
     "subtitle": "Why Choose KS Decors",
     "title1": "Excellence in Every",
     "title2": "Detail",
-    "desc": "We don't just decorate venues; we create immersive environments that leave lasting impressions. Our commitment to luxury and perfection sets us apart.",
+    "desc": "As the top-rated event decorators in Mayiladuthurai, we don't just decorate venues; we create immersive, luxurious environments that leave lasting impressions for weddings and special events.",
     "features": [
       { "title": "Creative Designs", "desc": "Unique luxury decoration concepts." },
       { "title": "Experienced Team", "desc": "Professional event execution." },
@@ -115,16 +115,60 @@
     "subtitle": "Client Feedback",
     "title": "Testimonials",
     "reviews": [
-      { "text": "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations.", "name": "Priya & Rahul", "type": "Wedding Event" },
-      { "text": "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team.", "name": "TechNova Corp", "type": "Corporate Event" },
-      { "text": "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors!", "name": "Anita M.", "type": "Birthday Party" }
+      { "text": "KS Decors transformed our wedding into a royal celebration. Every detail was perfect and exceeded our expectations. Best wedding decorators in Mayiladuthurai!", "name": "Priya & Rahul", "type": "Luxury Wedding" },
+      { "text": "The floral arrangements and stage design for our corporate gala were absolutely stunning. Highly professional team and top event management.", "name": "TechNova Corp", "type": "Corporate Event" },
+      { "text": "They made my daughter's birthday magical. The theme setup was exactly what we envisioned. Thank you KS Decors for the best birthday decoration!", "name": "Anita M.", "type": "Birthday Party" },
+      { "text": "We booked them for our reception stage decoration, and it was a masterpiece! Premium floral decors that left everyone amazed.", "name": "Karthik & Sneha", "type": "Reception Setup" },
+      { "text": "Highly recommend KS Decors for luxury event planning. They handle everything from A to Z perfectly.", "name": "Ramesh K.", "type": "Event Management" }
+    ]
+  },
+  "faq": {
+    "subtitle": "Common Questions",
+    "title1": "Frequently Asked",
+    "title2": "Questions",
+    "items": [
+      {
+        "question": "Who are the best event decorators in Mayiladuthurai?",
+        "answer": "KS Decors is widely recognized as the best premium event and wedding decorator in Mayiladuthurai, offering luxury stage designs, floral arrangements, and complete event management services."
+      },
+      {
+        "question": "Do you provide luxury wedding planners services?",
+        "answer": "Yes, we are top luxury wedding planners offering A-to-Z decoration services, including mandap decor, reception setup, entrance arches, and premium floral designs."
+      },
+      {
+        "question": "What types of events do you decorate?",
+        "answer": "We specialize in luxury weddings, corporate event setups, birthday party decorations, bridal showers, baby showers, and all milestone celebrations."
+      },
+      {
+        "question": "Do you offer premium floral decors?",
+        "answer": "Absolutely! Our expert florists create stunning, premium floral decors using fresh, exotic flowers tailored to your theme and preferences."
+      }
+    ]
+  },
+  "whatsapp": {
+    "subtitle": "Real Client Love",
+    "title1": "Client",
+    "title2": "Messages",
+    "chats": [
+      {
+        "time": "10:45 AM",
+        "message": "Hi Vignesh! Just wanted to say a huge thank you for the amazing wedding stage decoration. Everyone loved the premium floral setup! You are definitely the best decorators in Mayiladuthurai. 🙌✨"
+      },
+      {
+        "time": "02:30 PM",
+        "message": "The corporate event setup was flawless. Very professional and luxury finish. Looking forward to booking you again!"
+      },
+      {
+        "time": "06:15 PM",
+        "message": "Thanks for the magical birthday decor for my daughter! The balloon arch and dessert table were stunning. ❤️🎂"
+      }
     ]
   },
   "contact": {
     "subtitle": "Get In Touch",
     "title1": "Let's Create",
     "title2": "Magic Together",
-    "desc": "Ready to transform your dream event into reality? Reach out to us today.",
+    "desc": "Ready to transform your dream wedding or special event into reality? Reach out to the best decorators in Mayiladuthurai today for a free consultation.",
     "call_us": "Call Us",
     "email": "Email",
     "visit_us": "Visit Us",
