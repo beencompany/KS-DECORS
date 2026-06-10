@@ -238,12 +238,12 @@ const Services = () => {
             {t('services.subtitle', 'What We Do')}
           </motion.h3>
 
-          <motion.h2
+          <motion.h2 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-luxury text-cream font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-luxury text-cream font-bold mb-4 break-words"
           >
             {t('services.title1', 'Our')} <span className="text-gradient">{t('services.title2', 'Premium')}</span> {t('services.title3', 'Services')}
           </motion.h2>

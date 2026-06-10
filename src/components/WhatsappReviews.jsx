@@ -45,7 +45,7 @@ const WhatsappReviews = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold mb-4 break-words px-2"
           >
             {t('whatsapp.title1', 'Client')} <span className="text-[#25D366]">{t('whatsapp.title2', 'Messages')}</span>
           </motion.h2>

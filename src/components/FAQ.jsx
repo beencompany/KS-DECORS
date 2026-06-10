@@ -47,7 +47,7 @@ const FAQ = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold mb-4 break-words px-2"
           >
             {t('faq.title1', 'Frequently Asked')} <span className="text-gradient">{t('faq.title2', 'Questions')}</span>
           </motion.h2>

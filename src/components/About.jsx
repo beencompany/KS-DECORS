@@ -42,7 +42,7 @@ const About = () => {
               transition={{ duration: 0.6 }}
             >
               <h3 className="text-gold font-body uppercase tracking-widest text-sm mb-2">{t('about.subtitle')}</h3>
-              <h2 className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold mb-6 break-words">
                 {t('about.title1')} <span className="text-gradient">{t('about.title2')}</span>
               </h2>
               

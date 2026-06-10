@@ -46,7 +46,7 @@ const WhyChooseUs = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl font-luxury text-cream font-bold leading-tight mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold leading-tight mb-6 break-words px-2"
             >
               {t('why.title1', 'Excellence in Every')} <span className="text-gradient">{t('why.title2', 'Detail')}</span>
             </motion.h2>

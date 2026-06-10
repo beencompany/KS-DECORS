@@ -18,7 +18,7 @@ const Timeline = () => {
       <div className="container mx-auto px-4 md:px-8">
         
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold mb-4 break-words px-2">
             {t('timeline.title', 'Our Process')}
           </h2>
           <p className="text-cream/80 font-body">{t('timeline.subtitle', 'From concept to a successful royal event.')}</p>

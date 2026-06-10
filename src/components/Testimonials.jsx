@@ -26,7 +26,7 @@ const Testimonials = () => {
         <h3 className="text-gold font-body uppercase tracking-widest text-sm mb-2">
           {t('testimonials.subtitle', 'Client Feedback')}
         </h3>
-        <h2 className="text-4xl md:text-5xl font-luxury text-cream font-bold mb-16">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-luxury text-cream font-bold mb-16 break-words px-2">
           {t('testimonials.title', 'Testimonials')}
         </h2>
 

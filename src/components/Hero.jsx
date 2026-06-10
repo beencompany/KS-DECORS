@@ -65,7 +65,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="text-gold font-luxury text-xl md:text-3xl mb-4 tracking-[0.3em] uppercase"
+          className="text-gold font-luxury text-sm sm:text-xl md:text-3xl mb-4 tracking-[0.15em] sm:tracking-[0.3em] uppercase px-2"
         >
           {t('hero.subtitle')}
         </motion.h2>
@@ -74,10 +74,10 @@ const Hero = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          className="text-4xl md:text-7xl font-luxury text-cream font-bold leading-tight mb-6"
+          className="text-[1.7rem] sm:text-5xl md:text-7xl font-luxury text-cream font-bold leading-snug sm:leading-tight mb-6 w-full break-words sm:break-normal px-2"
         >
-          {t('hero.title1')} <br className="hidden md:block" />
-          <span className="text-gradient">{t('hero.title2')}</span>
+          <span className="block">{t('hero.title1')}</span>
+          <span className="text-gradient block mt-2">{t('hero.title2')}</span>
         </motion.h1>
 
         <motion.p

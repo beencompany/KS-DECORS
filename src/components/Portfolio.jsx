@@ -8,6 +8,7 @@ import 'lightgallery/css/lg-rotate.css';
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgRotate from 'lightgallery/plugins/rotate';
+import lgHash from 'lightgallery/plugins/hash';
 import { useTranslation } from 'react-i18next';
 
 const Portfolio = () => {
@@ -144,7 +145,7 @@ const Portfolio = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-luxury text-cream font-bold mb-4"
+            className="text-[1.8rem] sm:text-4xl md:text-5xl lg:text-6xl font-luxury text-cream font-bold mb-4 break-words px-2 leading-snug"
           >
             {t('portfolio.title', 'Premium Portfolio Gallery')}
           </motion.h2>
@@ -285,7 +286,8 @@ const Portfolio = () => {
               <LightGallery
                 key={filterIndex}
                 speed={500}
-                plugins={[lgZoom, lgThumbnail, lgRotate]}
+                plugins={[lgZoom, lgThumbnail, lgRotate, lgHash]}
+                galleryId={`gallery-${filterIndex}`}
                 elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10"
               >
                 <AnimatePresence mode="popLayout">

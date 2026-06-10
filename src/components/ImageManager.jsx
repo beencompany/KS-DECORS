@@ -5,16 +5,11 @@ import { FiTag, FiDollarSign, FiChevronDown, FiUploadCloud } from 'react-icons/f
 const IMGBB_API_KEY = '2917fe313678ce84e915687b682c0596';
 
 const SERVICES_LIST = [
-  "Our Services",
   "Birthday",
-  "Wedding",
-  "Reception",
-  "Kathukuthu",
+  "Wedding & Reception",
   "Manchal Neeratu Vizha",
-  "Valaigapu",
   "Welcome Board",
-  "Balloon Arch",
-  "Floral Arch",
+  "Arches",
   "Car Decoration",
   "Seer Thattu",
   "Air Cooler Rental"
@@ -26,7 +21,7 @@ export default function ImageManager() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
   const [error, setError] = useState('');
-  const [service, setService] = useState('Our Services');
+  const [service, setService] = useState('');
   const [amount, setAmount] = useState('');
 
   useEffect(() => {
@@ -101,7 +96,7 @@ export default function ImageManager() {
           imageUrl,
           deleteUrl,
           name: file.name,
-          service: service === 'Our Services' ? 'Uncategorized' : service,
+          service: service || 'Uncategorized',
           amount: amount
         }),
       });
@@ -122,7 +117,7 @@ export default function ImageManager() {
     setUploading(false);
     setUploadProgress('');
     setAmount(''); // Reset amount after upload
-    setService('Our Services'); // Reset service after upload
+    setService(''); // Reset service after upload
   };
 
   const handleDelete = async (id) => {
@@ -175,7 +170,7 @@ export default function ImageManager() {
           Upload New Masterpiece
         </label>
         
-        <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="max-w-md mx-auto mb-8">
           <div className="text-left relative">
             <label className="block text-xs font-luxury font-bold text-darkPurple/80 mb-2 uppercase tracking-widest pl-1">Service Category</label>
             <div className="relative group/input">
@@ -185,8 +180,9 @@ export default function ImageManager() {
               <select 
                 value={service} 
                 onChange={(e) => setService(e.target.value)}
-                className="w-full pl-12 pr-10 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all appearance-none text-darkPurple font-medium shadow-sm hover:bg-white"
+                className="w-full pl-12 pr-10 py-4 border border-white/60 rounded-2xl text-sm bg-white/70 backdrop-blur-md focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/10 transition-all appearance-none text-darkPurple font-medium shadow-sm hover:bg-white cursor-pointer"
               >
+                <option value="" disabled>Select Category</option>
                 {SERVICES_LIST.map(s => <option key={s} value={s} className="text-darkPurple bg-white">{s}</option>)}
               </select>
               <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
