@@ -30,7 +30,7 @@ const Portfolio = () => {
   ];
 
   useEffect(() => {
-    if (window.location.hash === '#category') {
+    if (window.location.hash === '#category' || window.location.hash === '#viewing') {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     const fetchImages = async () => {
@@ -50,6 +50,11 @@ const Portfolio = () => {
   // Handle hardware back button to close gallery or go back to All Categories
   useEffect(() => {
     const handlePopState = () => {
+      // Ignore the popstate event that fires when we open the gallery
+      if (window.location.hash === '#viewing') {
+        return;
+      }
+
       // If gallery is open (indicated by LightGallery's body class)
       if (document.body.classList.contains('lg-on')) {
         if (lgInstance) {
@@ -339,10 +344,10 @@ const Portfolio = () => {
                 plugins={[lgZoom, lgThumbnail, lgRotate]}
                 onInit={(detail) => setLgInstance(detail.instance)}
                 onBeforeOpen={() => {
-                  window.history.pushState({ lgOpen: true }, '');
+                  window.location.hash = 'viewing';
                 }}
                 onBeforeClose={() => {
-                  if (window.history.state && window.history.state.lgOpen) {
+                  if (window.location.hash === '#viewing') {
                     window.history.back();
                   }
                 }}
