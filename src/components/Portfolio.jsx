@@ -1,13 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import LightGallery from 'lightgallery/react';
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
-import 'lightgallery/css/lg-rotate.css';
-import lgZoom from 'lightgallery/plugins/zoom';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgRotate from 'lightgallery/plugins/rotate';
 import { useTranslation } from 'react-i18next';
 import { categories, localPortfolioData } from '../assets/constants';
 import PortfolioFilters from './PortfolioFilters';
@@ -19,12 +11,9 @@ const Portfolio = () => {
   const [filterIndex, setFilterIndex] = useState(0);
   const [dbImages, setDbImages] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
-  const [lgInstance, setLgInstance] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    if (window.location.hash === '#viewing') {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
     const fetchImages = async () => {
       try {
         const res = await fetch('/api/images');
@@ -38,35 +27,6 @@ const Portfolio = () => {
     };
     fetchImages();
   }, []);
-
-  // Handle hardware back button to close gallery or go back to All Categories
-  useEffect(() => {
-    const handlePopState = () => {
-      // Ignore the popstate event that fires when we open the gallery
-      if (window.location.hash === '#viewing') {
-        return;
-      }
-
-      try {
-        if (lgInstance && typeof lgInstance.closeGallery === 'function') {
-          lgInstance.closeGallery();
-        } else {
-          // Fallback if instance is lost
-          const closeBtn = document.querySelector('.lg-close');
-          if (closeBtn) closeBtn.click();
-        }
-      } catch (e) {
-        // Ignore errors if gallery is already closed or unmounted
-      }
-    };
-    
-    window.addEventListener('popstate', handlePopState);
-    window.addEventListener('hashchange', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-      window.removeEventListener('hashchange', handlePopState);
-    };
-  }, [lgInstance]);
 
   const handleFilterChange = (newIndex) => {
     setFilterIndex(newIndex);
@@ -228,31 +188,102 @@ const Portfolio = () => {
             </div>
 
             <div className="px-4 sm:px-6 pb-6 sm:pb-8">
-              <LightGallery
-                key={filterIndex}
-                speed={500}
-                plugins={[lgZoom, lgThumbnail, lgRotate]}
-                selector=".gallery-item"
-                onInit={(detail) => setLgInstance(detail.instance)}
-                onBeforeClose={() => {
-                  if (window.location.hash === '#viewing') {
-                    window.history.back();
-                  }
-                }}
-                galleryId={`gallery-${filterIndex}`}
-                elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10"
-              >
+              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10">
                 <AnimatePresence mode="popLayout">
                   {filteredData.map((item, index) => (
-                    <PortfolioImageCard key={item.id} item={item} index={index} />
+                    <PortfolioImageCard 
+                      key={item.id} 
+                      item={item} 
+                      index={index} 
+                      onClick={() => setSelectedImage(item)}
+                    />
                   ))}
                 </AnimatePresence>
-              </LightGallery>
+              </div>
             </div>
           </div>
         )}
 
       </div>
+
+      {/* Full-Screen Framer Motion Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darkPurple/90 backdrop-blur-md p-4 sm:p-8"
+            onClick={() => setSelectedImage(null)}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gold/70 hover:text-gold bg-black/30 hover:bg-black/50 rounded-full p-3 transition-all z-[101]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Image Container */}
+            <div 
+              className="relative w-full max-w-5xl max-h-[80vh] flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.img
+                layoutId={`image-${selectedImage.id}`}
+                src={selectedImage.src}
+                alt={selectedImage.title || selectedImage.category}
+                className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl shadow-gold/20"
+                transition={{ type: "spring", stiffness: 200, damping: 25 }}
+              />
+            </div>
+
+            {/* Bottom Info Bar */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 flex flex-col sm:flex-row items-center justify-between w-full max-w-5xl bg-black/40 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-gold/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center sm:text-left mb-4 sm:mb-0">
+                {selectedImage.title && (
+                  <h3 className="text-cream font-luxury text-xl sm:text-2xl font-bold tracking-wider mb-1">
+                    {selectedImage.title}
+                  </h3>
+                )}
+                <p className="text-gold/80 font-body text-sm uppercase tracking-widest">
+                  {t(`portfolio.categories.${selectedImage.category.toLowerCase().replace(/ /g, '_')}`, selectedImage.category)}
+                </p>
+              </div>
+
+              {/* Download Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const link = document.createElement('a');
+                  link.href = selectedImage.src;
+                  link.download = selectedImage.title ? `${selectedImage.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
+                  link.target = '_blank';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="flex items-center gap-2 bg-gradient-to-r from-gold to-yellow-600 text-darkPurple font-bold px-6 py-2.5 rounded-full hover:scale-105 transition-transform shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                {t('portfolio.download', 'Download')}
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

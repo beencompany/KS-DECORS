@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
-const PortfolioImageCard = ({ item, index }) => {
+const PortfolioImageCard = ({ item, index, onClick }) => {
   const { t } = useTranslation();
 
   return (
@@ -12,23 +12,13 @@ const PortfolioImageCard = ({ item, index }) => {
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5, delay: index * 0.05, type: 'spring', stiffness: 100 }}
       id={item.id}
-      data-src={item.src}
-      onClick={() => {
-        if (window.location.hash !== '#viewing') {
-          window.location.hash = 'viewing';
-        }
-      }}
-      className="gallery-item group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
-      data-sub-html={`
-        <div class="lg-custom-caption">
-          ${item.title ? `<h4 class="lg-title">${item.title}</h4>` : ''}
-          <p class="lg-category">${t(`portfolio.categories.${item.category.toLowerCase().replace(/ /g, '_')}`, item.category)}</p>
-        </div>
-      `}
+      onClick={onClick}
+      className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
     >
       {/* Image with inner padding/border */}
       <div className="p-2 sm:p-2.5">
-        <img 
+        <motion.img 
+          layoutId={`image-${item.id}`}
           src={item.thumb} 
           alt={item.category} 
           className="w-full h-auto object-cover rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
