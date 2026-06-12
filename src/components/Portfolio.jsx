@@ -29,8 +29,19 @@ const Portfolio = () => {
     'Air Cooler Rental'
   ];
 
+  const formatCategory = (cat) => cat.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+  const categoryHashes = categories.map(c => '#' + formatCategory(c));
+
   useEffect(() => {
-    if (window.location.hash === '#viewing') {
+    const currentHash = window.location.hash;
+    if (currentHash && categoryHashes.includes(currentHash)) {
+      const catName = currentHash.replace('#', '');
+      const index = categories.findIndex(c => formatCategory(c) === catName);
+      if (index !== -1) {
+        setFilterIndex(index);
+      }
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    } else if (currentHash === '#viewing') {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     const fetchImages = async () => {
@@ -51,7 +62,7 @@ const Portfolio = () => {
   useEffect(() => {
     const handlePopState = () => {
       // Ignore the popstate event that fires when we open the gallery
-      if (window.location.hash === '#viewing') {
+      if (window.location.hash === '#viewing' || categoryHashes.includes(window.location.hash)) {
         return;
       }
 
@@ -325,7 +336,7 @@ const Portfolio = () => {
                 plugins={[lgZoom, lgThumbnail, lgRotate]}
                 onInit={(detail) => setLgInstance(detail.instance)}
                 onBeforeClose={() => {
-                  if (window.location.hash === '#viewing') {
+                  if (window.location.hash === '#viewing' || categoryHashes.includes(window.location.hash)) {
                     window.history.back();
                   }
                 }}
@@ -344,8 +355,9 @@ const Portfolio = () => {
                       id={item.id}
                       href={item.src}
                       onClick={() => {
-                        if (window.location.hash !== '#viewing') {
-                          window.location.hash = 'viewing';
+                        const targetHash = '#' + formatCategory(item.category);
+                        if (window.location.hash !== targetHash) {
+                          window.location.hash = targetHash;
                         }
                       }}
                       className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
