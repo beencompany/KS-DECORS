@@ -393,25 +393,16 @@ const Portfolio = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            fetch(item.src)
-                              .then(response => response.blob())
-                              .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.download = item.title ? `${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                window.URL.revokeObjectURL(url);
-                              })
-                              .catch(() => {
-                                const link = document.createElement('a');
-                                link.href = item.src;
-                                link.download = item.title ? `${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
-                                link.target = '_blank';
-                                link.click();
-                              });
+                            
+                            const link = document.createElement('a');
+                            link.href = item.src;
+                            link.download = item.title ? `${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
+                            link.target = '_blank';
+                            
+                            // Must be appended to body for Firefox/Mobile support
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
                           }}
                           className="bg-gold/20 hover:bg-gold text-gold hover:text-darkPurple p-2 rounded-full transition-colors z-20 flex-shrink-0"
                           title="Download Image"
