@@ -61,10 +61,13 @@ const Portfolio = () => {
       }
       
       // If we're not in the gallery, hitting back should return to 'All' categories
-      // ONLY if the new state does not have categoryView: true
-      if (!e.state || !e.state.categoryView) {
-        setFilterIndex(0);
+      // If the hash is still '#category', it means we just closed an image and should stay in the category view
+      if (window.location.hash === '#category') {
+        return;
       }
+      
+      // Otherwise, the hash is empty (or something else), so go back to 'All Categories'
+      setFilterIndex(0);
     };
     
     window.addEventListener('popstate', handlePopState);
