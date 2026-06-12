@@ -12,6 +12,12 @@ const Portfolio = () => {
   const [dbImages, setDbImages] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [rotation, setRotation] = useState(0);
+
+  const handleOpenImage = (item) => {
+    setSelectedImage(item);
+    setRotation(0);
+  };
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -195,7 +201,7 @@ const Portfolio = () => {
                       key={item.id} 
                       item={item} 
                       index={index} 
-                      onClick={() => setSelectedImage(item)}
+                      onClick={() => handleOpenImage(item)}
                     />
                   ))}
                 </AnimatePresence>
@@ -217,15 +223,33 @@ const Portfolio = () => {
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darkPurple/90 backdrop-blur-md p-4 sm:p-8"
             onClick={() => setSelectedImage(null)}
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gold/70 hover:text-gold bg-black/30 hover:bg-black/50 rounded-full p-3 transition-all z-[101]"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            {/* Top Right Controls */}
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-3 z-[101]">
+              {/* Rotate Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setRotation(prev => prev + 90);
+                }}
+                className="text-gold/70 hover:text-gold bg-black/30 hover:bg-black/50 rounded-full p-3 transition-all"
+                title="Rotate Image"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              </button>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="text-gold/70 hover:text-gold bg-black/30 hover:bg-black/50 rounded-full p-3 transition-all"
+                title="Close Viewer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
             {/* Image Container */}
             <div 
@@ -236,6 +260,7 @@ const Portfolio = () => {
                 layoutId={`image-${selectedImage.id}`}
                 src={selectedImage.src}
                 alt={selectedImage.title || selectedImage.category}
+                animate={{ rotate: rotation }}
                 className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl shadow-gold/20"
                 transition={{ type: "spring", stiffness: 200, damping: 25 }}
               />
