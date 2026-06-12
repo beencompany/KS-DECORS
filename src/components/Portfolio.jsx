@@ -45,7 +45,7 @@ const Portfolio = () => {
     fetchImages();
   }, []);
 
-  // Handle hardware back button to close gallery
+  // Handle hardware back button to close gallery or go back to All Categories
   useEffect(() => {
     const handlePopState = () => {
       // If gallery is open (indicated by LightGallery's body class)
@@ -57,12 +57,34 @@ const Portfolio = () => {
           const closeBtn = document.querySelector('.lg-close');
           if (closeBtn) closeBtn.click();
         }
+        return;
       }
+      
+      // If we're not in the gallery, hitting back should return to 'All' categories
+      setFilterIndex(0);
     };
     
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [lgInstance]);
+
+  const handleFilterChange = (newIndex) => {
+    if (filterIndex === 0 && newIndex > 0) {
+      // Entering a category view
+      window.history.pushState({ categoryView: true }, '');
+      setFilterIndex(newIndex);
+    } else if (filterIndex > 0 && newIndex === 0) {
+      // Exiting category view using the button
+      if (window.history.state && window.history.state.categoryView) {
+        window.history.back(); // This triggers popstate, which sets filterIndex to 0
+      } else {
+        setFilterIndex(0);
+      }
+    } else {
+      // Switching between categories
+      setFilterIndex(newIndex);
+    }
+  };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
@@ -187,7 +209,7 @@ const Portfolio = () => {
             {categories.map((cat, index) => (
               <button
                 key={index}
-                onClick={() => setFilterIndex(index)}
+                onClick={() => handleFilterChange(index)}
                 className={`shrink-0 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full font-body text-xs sm:text-sm tracking-wider transition-all duration-500 border backdrop-blur-md ${
                   filterIndex === index 
                     ? 'bg-gradient-to-r from-gold to-yellow-600 text-darkPurple font-bold border-gold shadow-[0_0_20px_rgba(212,175,55,0.5)] scale-105' 
@@ -228,7 +250,7 @@ const Portfolio = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
-                  onClick={() => setFilterIndex(index + 1)}
+                  onClick={() => handleFilterChange(index + 1)}
                   className="group relative cursor-pointer overflow-hidden aspect-[3/4]"
                 >
                   {/* Outer decorative border */}
@@ -283,7 +305,7 @@ const Portfolio = () => {
             {/* Back to All button */}
             <div className="mb-10 pt-5 sm:pt-8 px-4 sm:px-6">
               <button
-                onClick={() => setFilterIndex(0)}
+                onClick={() => handleFilterChange(0)}
                 className="flex items-center gap-2 text-gold font-body text-sm tracking-wider hover:text-lightGold transition-colors mb-5 group"
               >
                 <span className="text-lg group-hover:-translate-x-1 transition-transform">←</span> Back to All Categories
