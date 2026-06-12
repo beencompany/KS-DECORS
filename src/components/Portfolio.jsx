@@ -345,9 +345,6 @@ const Portfolio = () => {
                 speed={500}
                 plugins={[lgZoom, lgThumbnail, lgRotate]}
                 onInit={(detail) => setLgInstance(detail.instance)}
-                onBeforeOpen={() => {
-                  window.location.hash = 'viewing';
-                }}
                 onBeforeClose={() => {
                   if (window.location.hash === '#viewing') {
                     window.history.back();
@@ -367,6 +364,11 @@ const Portfolio = () => {
                       key={item.id}
                       id={item.id}
                       href={item.src}
+                      onClick={() => {
+                        if (window.location.hash !== '#viewing') {
+                          window.location.hash = 'viewing';
+                        }
+                      }}
                       className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
                       data-sub-html={`
                         <div class="lg-custom-caption">
