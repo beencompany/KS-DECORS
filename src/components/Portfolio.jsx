@@ -9,6 +9,7 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgRotate from 'lightgallery/plugins/rotate';
 import { useTranslation } from 'react-i18next';
+import { categories, localPortfolioData } from '../assets/constants';
 
 const Portfolio = () => {
   const { t } = useTranslation();
@@ -16,18 +17,6 @@ const Portfolio = () => {
   const [dbImages, setDbImages] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [lgInstance, setLgInstance] = useState(null);
-
-  const categories = [
-    'All',
-    'Birthday',
-    'Wedding & Reception',
-    'Manchal Neeratu Vizha',
-    'Welcome Board',
-    'Arches',
-    'Car Decoration',
-    'Seer Thattu',
-    'Air Cooler Rental'
-  ];
 
   useEffect(() => {
     if (window.location.hash === '#viewing') {
@@ -82,15 +71,6 @@ const Portfolio = () => {
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
-  const carModules = import.meta.glob('../assets/car/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const weddingModules = import.meta.glob('../assets/wedding/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const thatuModules = import.meta.glob('../assets/thatu/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const manchalModules = import.meta.glob('../assets/manchalneratuvila/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const nameBoardModules = import.meta.glob('../assets/name-board/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const airCoolerModules = import.meta.glob('../assets/aircoller/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const archModules = import.meta.glob('../assets/arch/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-  const birthdayModules = import.meta.glob('../assets/birthday/*.{jpeg,jpg,png,webp}', { eager: true, import: 'default' });
-
   const dbPortfolioData = dbImages.map((img, index) => ({
     id: `db-${img._id}`,
     category: img.service && img.service !== 'Other' && img.service !== 'Uncategorized' ? img.service : getCategory(index),
@@ -99,28 +79,6 @@ const Portfolio = () => {
     title: img.name,
     amount: 0
   }));
-
-  const createLocalData = (modules, categoryName) => {
-    return Object.values(modules).map((src, index) => ({
-      id: `local-${categoryName}-${index}`,
-      category: categoryName,
-      src: src,
-      thumb: src,
-      title: '',
-      amount: 0
-    }));
-  };
-
-  const localPortfolioData = [
-    ...createLocalData(carModules, 'Car Decoration'),
-    ...createLocalData(weddingModules, 'Wedding'),
-    ...createLocalData(thatuModules, 'Seer Thattu'),
-    ...createLocalData(manchalModules, 'Manchal Neeratu Vizha'),
-    ...createLocalData(nameBoardModules, 'Welcome Board'),
-    ...createLocalData(airCoolerModules, 'Air Cooler Rental'),
-    ...createLocalData(archModules, 'Arches'),
-    ...createLocalData(birthdayModules, 'Birthday')
-  ];
 
   const combinedData = [...dbPortfolioData, ...localPortfolioData];
   const categoryCounters = {};
