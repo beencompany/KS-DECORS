@@ -69,20 +69,20 @@ const Portfolio = () => {
   }, [lgInstance]);
 
   const handleFilterChange = (newIndex) => {
+    // Immediately update the UI so the button click feels responsive
+    setFilterIndex(newIndex);
+
     if (filterIndex === 0 && newIndex > 0) {
-      // Entering a category view
+      // Entering a category view: push a history state so the hardware back button works
       window.history.pushState({ categoryView: true }, '');
-      setFilterIndex(newIndex);
     } else if (filterIndex > 0 && newIndex === 0) {
-      // Exiting category view using the button
+      // Exiting category view via the button: pop the history state we created
       if (window.history.state && window.history.state.categoryView) {
-        window.history.back(); // This triggers popstate, which sets filterIndex to 0
-      } else {
-        setFilterIndex(0);
+        // We use a small timeout to let the UI update first before messing with history
+        setTimeout(() => {
+          window.history.back();
+        }, 10);
       }
-    } else {
-      // Switching between categories
-      setFilterIndex(newIndex);
     }
   };
 
