@@ -16,6 +16,7 @@ const Portfolio = () => {
   const [filterIndex, setFilterIndex] = useState(0);
   const [dbImages, setDbImages] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [lgInstance, setLgInstance] = useState(null);
 
   const categories = [
     'All',
@@ -43,6 +44,25 @@ const Portfolio = () => {
     };
     fetchImages();
   }, []);
+
+  // Handle hardware back button to close gallery
+  useEffect(() => {
+    const handlePopState = () => {
+      // If gallery is open (indicated by LightGallery's body class)
+      if (document.body.classList.contains('lg-on')) {
+        if (lgInstance) {
+          lgInstance.closeGallery();
+        } else {
+          // Fallback if instance is lost
+          const closeBtn = document.querySelector('.lg-close');
+          if (closeBtn) closeBtn.click();
+        }
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [lgInstance]);
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
 
@@ -287,6 +307,15 @@ const Portfolio = () => {
                 key={filterIndex}
                 speed={500}
                 plugins={[lgZoom, lgThumbnail, lgRotate, lgHash]}
+                onInit={(detail) => setLgInstance(detail.instance)}
+                onBeforeOpen={() => {
+                  window.history.pushState({ lgOpen: true }, '');
+                }}
+                onBeforeClose={() => {
+                  if (window.history.state && window.history.state.lgOpen) {
+                    window.history.back();
+                  }
+                }}
                 galleryId={`gallery-${filterIndex}`}
                 elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10"
               >
