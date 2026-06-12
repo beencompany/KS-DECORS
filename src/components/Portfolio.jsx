@@ -356,6 +356,7 @@ const Portfolio = () => {
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.5, delay: index * 0.05, type: 'spring', stiffness: 100 }}
                       key={item.id}
+                      id={item.id}
                       href={item.src}
                       className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
                       data-sub-html={`
