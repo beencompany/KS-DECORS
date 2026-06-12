@@ -336,14 +336,6 @@ const Portfolio = () => {
                 speed={500}
                 plugins={[lgZoom, lgThumbnail, lgRotate, lgHash]}
                 onInit={(detail) => setLgInstance(detail.instance)}
-                onBeforeOpen={() => {
-                  window.history.pushState({ lgOpen: true }, '');
-                }}
-                onBeforeClose={() => {
-                  if (window.history.state && window.history.state.lgOpen) {
-                    window.history.back();
-                  }
-                }}
                 galleryId={`gallery-${filterIndex}`}
                 elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10"
               >
