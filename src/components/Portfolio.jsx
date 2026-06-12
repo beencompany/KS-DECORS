@@ -33,16 +33,31 @@ const Portfolio = () => {
   const categoryHashes = categories.map(c => '#' + formatCategory(c));
 
   useEffect(() => {
-    const currentHash = window.location.hash;
-    if (currentHash && categoryHashes.includes(currentHash)) {
-      const catName = currentHash.replace('#', '');
-      const index = categories.findIndex(c => formatCategory(c) === catName);
+    // Support modern query parameters
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('category');
+    
+    if (catParam) {
+      const index = categories.findIndex(c => formatCategory(c) === catParam);
       if (index !== -1) {
         setFilterIndex(index);
       }
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    } else if (currentHash === '#viewing') {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    } else {
+      // Legacy support for hash-based linking
+      const currentHash = window.location.hash;
+      if (currentHash && categoryHashes.includes(currentHash)) {
+        const catName = currentHash.replace('#', '');
+        const index = categories.findIndex(c => formatCategory(c) === catName);
+        if (index !== -1) {
+          setFilterIndex(index);
+          const url = new URL(window.location);
+          url.searchParams.set('category', catName);
+          url.hash = '';
+          window.history.replaceState(null, '', url.toString());
+        }
+      } else if (currentHash === '#viewing') {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
     }
     const fetchImages = async () => {
       try {
@@ -66,6 +81,7 @@ const Portfolio = () => {
         return;
       }
 
+      // Close gallery if it's open
       try {
         if (lgInstance && typeof lgInstance.closeGallery === 'function') {
           lgInstance.closeGallery();
@@ -76,6 +92,20 @@ const Portfolio = () => {
         }
       } catch (e) {
         // Ignore errors if gallery is already closed or unmounted
+      }
+      
+      // Handle category navigation history
+      const params = new URLSearchParams(window.location.search);
+      const catParam = params.get('category');
+      if (catParam) {
+        const index = categories.findIndex(c => formatCategory(c) === catParam);
+        if (index !== -1) {
+          setFilterIndex(index);
+        } else {
+          setFilterIndex(0);
+        }
+      } else {
+        setFilterIndex(0);
       }
     };
     
@@ -89,6 +119,15 @@ const Portfolio = () => {
 
   const handleFilterChange = (newIndex) => {
     setFilterIndex(newIndex);
+    
+    // Update URL so it can be shared and navigated via back button
+    const url = new URL(window.location);
+    if (newIndex === 0) {
+      url.searchParams.delete('category');
+    } else {
+      url.searchParams.set('category', formatCategory(categories[newIndex]));
+    }
+    window.history.pushState(null, '', url.toString());
   };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
