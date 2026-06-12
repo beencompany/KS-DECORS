@@ -30,6 +30,9 @@ const Portfolio = () => {
   ];
 
   useEffect(() => {
+    if (window.location.hash === '#category') {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
     const fetchImages = async () => {
       try {
         const res = await fetch('/api/images');
@@ -78,19 +81,16 @@ const Portfolio = () => {
     setFilterIndex(newIndex);
 
     if (filterIndex === 0 && newIndex > 0) {
-      // Entering a category view: push a history state with a hash so mobile browsers register it
-      window.history.pushState({ categoryView: true }, '', '#category');
+      // Entering a category view: change hash so mobile browsers register it
+      window.location.hash = 'category';
     } else if (filterIndex > 0 && newIndex === 0) {
       // Exiting category view via the button: pop the history state we created
-      if (window.history.state && window.history.state.categoryView) {
+      if (window.location.hash === '#category') {
         // We use a small timeout to let the UI update first before messing with history
         setTimeout(() => {
           window.history.back();
         }, 10);
       }
-    } else if (filterIndex > 0 && newIndex > 0) {
-      // Switching directly between categories: replace state
-      window.history.replaceState({ categoryView: true }, '', '#category');
     }
   };
 
