@@ -281,6 +281,7 @@ const Portfolio = () => {
                 key={filterIndex}
                 speed={500}
                 plugins={[lgZoom, lgThumbnail, lgRotate]}
+                selector=".gallery-item"
                 onInit={(detail) => setLgInstance(detail.instance)}
                 onBeforeClose={() => {
                   if (window.location.hash === '#viewing') {
@@ -292,7 +293,7 @@ const Portfolio = () => {
               >
                 <AnimatePresence mode="popLayout">
                   {filteredData.map((item, index) => (
-                    <motion.a
+                    <motion.div
                       layout
                       initial={{ opacity: 0, y: 30, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -300,13 +301,13 @@ const Portfolio = () => {
                       transition={{ duration: 0.5, delay: index * 0.05, type: 'spring', stiffness: 100 }}
                       key={item.id}
                       id={item.id}
-                      href={item.src}
+                      data-src={item.src}
                       onClick={() => {
                         if (window.location.hash !== '#viewing') {
                           window.location.hash = 'viewing';
                         }
                       }}
-                      className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
+                      className="gallery-item group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
                       data-sub-html={`
                         <div class="lg-custom-caption">
                           ${item.title ? `<h4 class="lg-title">${item.title}</h4>` : ''}
@@ -362,7 +363,7 @@ const Portfolio = () => {
                       {/* Corner accents */}
                       <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-gold/0 group-hover:border-gold/40 rounded-tr-2xl transition-all duration-500 pointer-events-none"></div>
                       <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-gold/0 group-hover:border-gold/40 rounded-bl-2xl transition-all duration-500 pointer-events-none"></div>
-                    </motion.a>
+                    </motion.div>
                   ))}
                 </AnimatePresence>
               </LightGallery>
