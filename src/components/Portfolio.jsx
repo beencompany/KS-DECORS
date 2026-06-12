@@ -29,35 +29,9 @@ const Portfolio = () => {
     'Air Cooler Rental'
   ];
 
-  const formatCategory = (cat) => cat.toLowerCase().replace(/[^a-z0-9]+/g, '_');
-  const categoryHashes = categories.map(c => '#' + formatCategory(c));
-
   useEffect(() => {
-    // Support modern query parameters
-    const params = new URLSearchParams(window.location.search);
-    const catParam = params.get('category');
-    
-    if (catParam) {
-      const index = categories.findIndex(c => formatCategory(c) === catParam);
-      if (index !== -1) {
-        setFilterIndex(index);
-      }
-    } else {
-      // Legacy support for hash-based linking
-      const currentHash = window.location.hash;
-      if (currentHash && categoryHashes.includes(currentHash)) {
-        const catName = currentHash.replace('#', '');
-        const index = categories.findIndex(c => formatCategory(c) === catName);
-        if (index !== -1) {
-          setFilterIndex(index);
-          const url = new URL(window.location);
-          url.searchParams.set('category', catName);
-          url.hash = '';
-          window.history.replaceState(null, '', url.toString());
-        }
-      } else if (currentHash === '#viewing') {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      }
+    if (window.location.hash === '#viewing') {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     const fetchImages = async () => {
       try {
@@ -77,11 +51,10 @@ const Portfolio = () => {
   useEffect(() => {
     const handlePopState = () => {
       // Ignore the popstate event that fires when we open the gallery
-      if (window.location.hash === '#viewing' || categoryHashes.includes(window.location.hash)) {
+      if (window.location.hash === '#viewing') {
         return;
       }
 
-      // Close gallery if it's open
       try {
         if (lgInstance && typeof lgInstance.closeGallery === 'function') {
           lgInstance.closeGallery();
@@ -92,20 +65,6 @@ const Portfolio = () => {
         }
       } catch (e) {
         // Ignore errors if gallery is already closed or unmounted
-      }
-      
-      // Handle category navigation history
-      const params = new URLSearchParams(window.location.search);
-      const catParam = params.get('category');
-      if (catParam) {
-        const index = categories.findIndex(c => formatCategory(c) === catParam);
-        if (index !== -1) {
-          setFilterIndex(index);
-        } else {
-          setFilterIndex(0);
-        }
-      } else {
-        setFilterIndex(0);
       }
     };
     
@@ -119,15 +78,6 @@ const Portfolio = () => {
 
   const handleFilterChange = (newIndex) => {
     setFilterIndex(newIndex);
-    
-    // Update URL so it can be shared and navigated via back button
-    const url = new URL(window.location);
-    if (newIndex === 0) {
-      url.searchParams.delete('category');
-    } else {
-      url.searchParams.set('category', formatCategory(categories[newIndex]));
-    }
-    window.history.pushState(null, '', url.toString());
   };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
@@ -375,7 +325,7 @@ const Portfolio = () => {
                 plugins={[lgZoom, lgThumbnail, lgRotate]}
                 onInit={(detail) => setLgInstance(detail.instance)}
                 onBeforeClose={() => {
-                  if (window.location.hash === '#viewing' || categoryHashes.includes(window.location.hash)) {
+                  if (window.location.hash === '#viewing') {
                     window.history.back();
                   }
                 }}
@@ -394,9 +344,8 @@ const Portfolio = () => {
                       id={item.id}
                       href={item.src}
                       onClick={() => {
-                        const targetHash = '#' + formatCategory(item.category);
-                        if (window.location.hash !== targetHash) {
-                          window.location.hash = targetHash;
+                        if (window.location.hash !== '#viewing') {
+                          window.location.hash = 'viewing';
                         }
                       }}
                       className="group relative overflow-hidden rounded-2xl cursor-pointer block break-inside-avoid border border-gold/20 hover:border-gold/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-gradient-to-b from-royal/40 to-darkPurple/60"
