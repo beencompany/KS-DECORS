@@ -55,16 +55,14 @@ const Portfolio = () => {
         return;
       }
 
-      // If gallery is open (indicated by LightGallery's body class)
-      if (document.body.classList.contains('lg-on')) {
-        if (lgInstance) {
-          lgInstance.closeGallery();
-        } else {
-          // Fallback if instance is lost
-          const closeBtn = document.querySelector('.lg-close');
-          if (closeBtn) closeBtn.click();
-        }
-        return;
+      // Always attempt to close the gallery if we navigate back.
+      // LightGallery safely ignores this if it's already closed.
+      if (lgInstance) {
+        lgInstance.closeGallery();
+      } else {
+        // Fallback if instance is lost
+        const closeBtn = document.querySelector('.lg-close');
+        if (closeBtn) closeBtn.click();
       }
       
       // If we're not in the gallery, hitting back should return to 'All' categories
