@@ -30,7 +30,7 @@ const Portfolio = () => {
   ];
 
   useEffect(() => {
-    if (window.location.hash === '#category' || window.location.hash === '#viewing') {
+    if (window.location.hash === '#viewing') {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     const fetchImages = async () => {
@@ -66,15 +66,6 @@ const Portfolio = () => {
       } catch (e) {
         // Ignore errors if gallery is already closed or unmounted
       }
-      
-      // If we're not in the gallery, hitting back should return to 'All' categories
-      // If the hash is still '#category', it means we just closed an image and should stay in the category view
-      if (window.location.hash === '#category') {
-        return;
-      }
-      
-      // Otherwise, the hash is empty (or something else), so go back to 'All Categories'
-      setFilterIndex(0);
     };
     
     window.addEventListener('popstate', handlePopState);
@@ -86,21 +77,7 @@ const Portfolio = () => {
   }, [lgInstance]);
 
   const handleFilterChange = (newIndex) => {
-    // Immediately update the UI so the button click feels responsive
     setFilterIndex(newIndex);
-
-    if (filterIndex === 0 && newIndex > 0) {
-      // Entering a category view: change hash so mobile browsers register it
-      window.location.hash = 'category';
-    } else if (filterIndex > 0 && newIndex === 0) {
-      // Exiting category view via the button: pop the history state we created
-      if (window.location.hash === '#category') {
-        // We use a small timeout to let the UI update first before messing with history
-        setTimeout(() => {
-          window.history.back();
-        }, 10);
-      }
-    }
   };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
