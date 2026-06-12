@@ -385,8 +385,41 @@ const Portfolio = () => {
                       </div>
                       
                       {/* Info bar below image */}
-                      <div className="px-4 pb-4 pt-1">
-                        {item.title && <p className="text-cream font-luxury text-lg tracking-wider drop-shadow-md truncate">{item.title}</p>}
+                      <div className="px-4 pb-4 pt-1 flex justify-between items-center gap-2">
+                        {item.title && <p className="text-cream font-luxury text-lg tracking-wider drop-shadow-md truncate flex-1">{item.title}</p>}
+                        
+                        {/* Download button */}
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            fetch(item.src)
+                              .then(response => response.blob())
+                              .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.download = item.title ? `${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                window.URL.revokeObjectURL(url);
+                              })
+                              .catch(() => {
+                                const link = document.createElement('a');
+                                link.href = item.src;
+                                link.download = item.title ? `${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.jpg` : 'KS_Decor.jpg';
+                                link.target = '_blank';
+                                link.click();
+                              });
+                          }}
+                          className="bg-gold/20 hover:bg-gold text-gold hover:text-darkPurple p-2 rounded-full transition-colors z-20 flex-shrink-0"
+                          title="Download Image"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                        </button>
                       </div>
 
                       {/* Hover overlay */}
