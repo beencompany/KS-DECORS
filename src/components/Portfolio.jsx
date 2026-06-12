@@ -8,7 +8,6 @@ import 'lightgallery/css/lg-rotate.css';
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgRotate from 'lightgallery/plugins/rotate';
-import lgHash from 'lightgallery/plugins/hash';
 import { useTranslation } from 'react-i18next';
 
 const Portfolio = () => {
@@ -337,8 +336,16 @@ const Portfolio = () => {
               <LightGallery
                 key={filterIndex}
                 speed={500}
-                plugins={[lgZoom, lgThumbnail, lgRotate, lgHash]}
+                plugins={[lgZoom, lgThumbnail, lgRotate]}
                 onInit={(detail) => setLgInstance(detail.instance)}
+                onBeforeOpen={() => {
+                  window.history.pushState({ lgOpen: true }, '');
+                }}
+                onBeforeClose={() => {
+                  if (window.history.state && window.history.state.lgOpen) {
+                    window.history.back();
+                  }
+                }}
                 galleryId={`gallery-${filterIndex}`}
                 elementClassNames="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10"
               >
