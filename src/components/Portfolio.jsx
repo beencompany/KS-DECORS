@@ -61,7 +61,10 @@ const Portfolio = () => {
       }
       
       // If we're not in the gallery, hitting back should return to 'All' categories
-      setFilterIndex(0);
+      // ONLY if the new state does not have categoryView: true
+      if (!e.state || !e.state.categoryView) {
+        setFilterIndex(0);
+      }
     };
     
     window.addEventListener('popstate', handlePopState);
@@ -73,8 +76,8 @@ const Portfolio = () => {
     setFilterIndex(newIndex);
 
     if (filterIndex === 0 && newIndex > 0) {
-      // Entering a category view: push a history state so the hardware back button works
-      window.history.pushState({ categoryView: true }, '');
+      // Entering a category view: push a history state with a hash so mobile browsers register it
+      window.history.pushState({ categoryView: true }, '', '#category');
     } else if (filterIndex > 0 && newIndex === 0) {
       // Exiting category view via the button: pop the history state we created
       if (window.history.state && window.history.state.categoryView) {
@@ -83,6 +86,9 @@ const Portfolio = () => {
           window.history.back();
         }, 10);
       }
+    } else if (filterIndex > 0 && newIndex > 0) {
+      // Switching directly between categories: replace state
+      window.history.replaceState({ categoryView: true }, '', '#category');
     }
   };
 
