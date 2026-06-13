@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ksdecorofficial.dpdns.org/sitemap.xml
