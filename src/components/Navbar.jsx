@@ -73,7 +73,11 @@ const Navbar = () => {
     setIsOpen(false);
 
     if (currentPath === path && path === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       navigate(path);
     }
