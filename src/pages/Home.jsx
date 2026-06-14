@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Services from '../components/Services';
@@ -68,88 +67,6 @@ const Home = () => {
       }
     ]
   };
-
-  const hasPushedHistory = useRef(false);
-
-  useEffect(() => {
-    const handlePopState = () => {
-      if (window.location.pathname === '/') {
-        if (window.__lenis) {
-          window.__lenis.scrollTo(0, { immediate: true });
-        } else {
-          window.scrollTo(0, 0);
-        }
-        hasPushedHistory.current = false;
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  useEffect(() => {
-    const handleInteraction = (e) => {
-      // Skip if interacting with a link or button, as they have their own navigation/actions
-      if (e.target.closest('a') || e.target.closest('button')) {
-        return;
-      }
-      
-      if (!hasPushedHistory.current && window.location.pathname === '/') {
-        // Push a state so the back button can return here
-        window.history.pushState(null, '', window.location.pathname);
-        hasPushedHistory.current = true;
-      }
-    };
-
-    window.addEventListener('touchstart', handleInteraction, { passive: true });
-    window.addEventListener('mousedown', handleInteraction, { passive: true });
-
-    return () => {
-      window.removeEventListener('touchstart', handleInteraction);
-      window.removeEventListener('mousedown', handleInteraction);
-    };
-  }, []);
-
-  useEffect(() => {
-    const sections = [
-      { id: 'home', path: '/' },
-      { id: 'about', path: '/about' },
-      { id: 'gallery', path: '/gallery' },
-      { id: 'services', path: '/services' },
-      { id: 'testimonials', path: '/testimonials' },
-      { id: 'contact', path: '/contact' }
-    ];
-
-    const observerOptions = {
-      root: null,
-      rootMargin: '-40% 0px -40% 0px', // 20% vertical intersection band, robust for mobile toolbars
-      threshold: 0
-    };
-
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const section = sections.find(s => s.id === entry.target.id);
-          if (section) {
-            if (window.location.pathname !== section.path) {
-              window.history.replaceState(null, '', section.path);
-              window.dispatchEvent(new CustomEvent('scroll-route-changed', { detail: section.path }));
-            }
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    sections.forEach((sec) => {
-      const element = document.getElementById(sec.id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <main className="min-h-screen">

@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { categories, localPortfolioData } from '../assets/constants';
 import PortfolioFilters from './PortfolioFilters';
 import PortfolioCategoryCard from './PortfolioCategoryCard';
 import PortfolioImageCard from './PortfolioImageCard';
-
-const toSlug = (cat) => cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
 
 const Portfolio = () => {
   const { t } = useTranslation();
@@ -16,10 +13,6 @@ const Portfolio = () => {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [rotation, setRotation] = useState(0);
-  
-  const { categorySlug } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const handleOpenImage = (item) => {
     setSelectedImage(item);
@@ -41,31 +34,8 @@ const Portfolio = () => {
     fetchImages();
   }, []);
 
-  useEffect(() => {
-    if (location.pathname.includes('/gallery')) {
-      if (categorySlug) {
-        const index = categories.findIndex(c => toSlug(c) === categorySlug);
-        if (index !== -1) {
-          setFilterIndex(index);
-        } else {
-          setFilterIndex(0);
-        }
-      } else {
-        setFilterIndex(0);
-      }
-    }
-  }, [categorySlug, location.pathname]);
-
   const handleFilterChange = (newIndex) => {
-    if (location.pathname.includes('/gallery')) {
-      if (newIndex === 0) {
-        navigate('/gallery');
-      } else {
-        navigate(`/gallery/${toSlug(categories[newIndex])}`);
-      }
-    } else {
-      setFilterIndex(newIndex);
-    }
+    setFilterIndex(newIndex);
   };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
