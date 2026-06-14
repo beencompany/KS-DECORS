@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Services from '../components/Services';
@@ -69,6 +69,19 @@ const Home = () => {
     ]
   };
 
+  const hasPushedHistory = useRef(false);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        hasPushedHistory.current = false;
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   useEffect(() => {
     const sections = [
       { id: 'home', path: '/' },
@@ -91,7 +104,13 @@ const Home = () => {
           const section = sections.find(s => s.id === entry.target.id);
           if (section) {
             if (window.location.pathname !== section.path) {
-              window.history.replaceState(null, '', section.path);
+              if (window.location.pathname === '/' && !hasPushedHistory.current) {
+                // Moving away from home for the first time, create a back entry
+                window.history.pushState(null, '', section.path);
+                hasPushedHistory.current = true;
+              } else {
+                window.history.replaceState(null, '', section.path);
+              }
               window.dispatchEvent(new CustomEvent('scroll-route-changed', { detail: section.path }));
             }
           }
