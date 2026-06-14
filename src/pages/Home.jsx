@@ -94,7 +94,7 @@ const Home = () => {
 
     const observerOptions = {
       root: null,
-      rootMargin: '-50% 0px -50% 0px', // Trigger when section crosses middle of screen
+      rootMargin: '-40% 0px -40% 0px', // 20% vertical intersection band, robust for mobile toolbars
       threshold: 0
     };
 
