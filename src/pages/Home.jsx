@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Services from '../components/Services';
@@ -67,6 +68,48 @@ const Home = () => {
       }
     ]
   };
+
+  useEffect(() => {
+    const sections = [
+      { id: 'home', path: '/' },
+      { id: 'about', path: '/about' },
+      { id: 'gallery', path: '/gallery' },
+      { id: 'services', path: '/services' },
+      { id: 'testimonials', path: '/testimonials' },
+      { id: 'contact', path: '/contact' }
+    ];
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px', // Trigger when section crosses middle of screen
+      threshold: 0
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const section = sections.find(s => s.id === entry.target.id);
+          if (section) {
+            if (window.location.pathname !== section.path) {
+              window.history.replaceState(null, '', section.path);
+              window.dispatchEvent(new CustomEvent('scroll-route-changed', { detail: section.path }));
+            }
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sections.forEach((sec) => {
+      const element = document.getElementById(sec.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className="min-h-screen">

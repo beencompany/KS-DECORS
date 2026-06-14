@@ -32,6 +32,18 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  
+  const [currentPath, setCurrentPath] = useState(location.pathname);
+
+  useEffect(() => {
+    setCurrentPath(location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleScrollRoute = (e) => setCurrentPath(e.detail);
+    window.addEventListener('scroll-route-changed', handleScrollRoute);
+    return () => window.removeEventListener('scroll-route-changed', handleScrollRoute);
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = i18n.language?.startsWith('ta') ? 'en' : 'ta';
@@ -60,7 +72,7 @@ const Navbar = () => {
     e.preventDefault();
     setIsOpen(false);
 
-    if (location.pathname === path && path === '/') {
+    if (currentPath === path && path === '/') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       navigate(path);
@@ -89,20 +101,20 @@ const Navbar = () => {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => {
-            const isActive = location.pathname === link.path || (location.pathname === '/' && link.path === '/');
+            const isActive = currentPath === link.path || (currentPath === '/' && link.path === '/');
             return (
               <a
                 key={link.name}
                 href={link.path}
                 onClick={(e) => handleNavClick(e, link.path)}
-                className={`transition-colors font-body text-sm uppercase tracking-wider relative group ${location.pathname === link.path
+                className={`transition-colors font-body text-sm uppercase tracking-wider relative group ${isActive
                     ? 'text-gold'
                     : 'text-cream hover:text-gold'
                   }`}
               >
                 {link.name}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-gold transition-all duration-300 ${location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-gold transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                 ></span>
               </a>
@@ -158,7 +170,7 @@ const Navbar = () => {
                   key={link.name}
                   href={link.path}
                   onClick={(e) => handleNavClick(e, link.path)}
-                  className={`transition-colors font-luxury text-xl tracking-wider ${location.pathname === link.path
+                  className={`transition-colors font-luxury text-xl tracking-wider ${currentPath === link.path
                       ? 'text-gold'
                       : 'text-cream hover:text-gold'
                     }`}
