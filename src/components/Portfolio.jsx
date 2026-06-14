@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { categories, localPortfolioData } from '../assets/constants';
@@ -8,15 +9,31 @@ import PortfolioImageCard from './PortfolioImageCard';
 
 const Portfolio = () => {
   const { t } = useTranslation();
-  const [filterIndex, setFilterIndex] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [dbImages, setDbImages] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [rotation, setRotation] = useState(0);
 
+  const categoryParam = searchParams.get('category');
+  const imageParam = searchParams.get('image');
+
+  const matchedIndex = categories.findIndex(c => c.toLowerCase().replace(/\s+/g, '-') === categoryParam);
+  const filterIndex = matchedIndex !== -1 ? matchedIndex : 0;
+
   const handleOpenImage = (item) => {
-    setSelectedImage(item);
+    setSearchParams(prev => {
+      prev.set('image', item.id);
+      return prev;
+    });
     setRotation(0);
+  };
+
+  const handleCloseImage = (e) => {
+    if (e) e.stopPropagation();
+    setSearchParams(prev => {
+      prev.delete('image');
+      return prev;
+    });
   };
 
   useEffect(() => {
@@ -35,7 +52,15 @@ const Portfolio = () => {
   }, []);
 
   const handleFilterChange = (newIndex) => {
-    setFilterIndex(newIndex);
+    setSearchParams(prev => {
+      if (newIndex === 0) {
+        prev.delete('category');
+      } else {
+        prev.set('category', categories[newIndex].toLowerCase().replace(/\s+/g, '-'));
+      }
+      prev.delete('image'); // Close image if changing category
+      return prev;
+    });
   };
 
   const getCategory = (index) => categories[(index % (categories.length - 1)) + 1];
@@ -57,6 +82,8 @@ const Portfolio = () => {
     categoryCounters[catName]++;
     return { ...item, title: `${catName} ${categoryCounters[catName]}` };
   });
+
+  const selectedImage = imageParam ? portfolioData.find(item => item.id === imageParam) || null : null;
 
   const filteredData = filterIndex === 0 
     ? portfolioData 
@@ -195,7 +222,7 @@ const Portfolio = () => {
 
             <div className="px-4 sm:px-6 pb-6 sm:pb-8">
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-7 lg:gap-8 space-y-6 sm:space-y-7 lg:space-y-8 relative z-10">
-                <AnimatePresence mode="popLayout">
+                <AnimatePresence mode="wait">
                   {filteredData.map((item, index) => (
                     <PortfolioImageCard 
                       key={item.id} 
@@ -221,7 +248,7 @@ const Portfolio = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darkPurple/90 backdrop-blur-md p-4 sm:p-8"
-            onClick={() => setSelectedImage(null)}
+            onClick={handleCloseImage}
           >
             {/* Top Right Controls */}
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-3 z-[101]">
@@ -241,7 +268,7 @@ const Portfolio = () => {
 
               {/* Close Button */}
               <button
-                onClick={() => setSelectedImage(null)}
+                onClick={handleCloseImage}
                 className="text-gold/70 hover:text-gold bg-black/30 hover:bg-black/50 rounded-full p-3 transition-all"
                 title="Close Viewer"
               >
