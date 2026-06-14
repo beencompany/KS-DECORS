@@ -87,6 +87,29 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    const handleInteraction = (e) => {
+      // Skip if interacting with a link or button, as they have their own navigation/actions
+      if (e.target.closest('a') || e.target.closest('button')) {
+        return;
+      }
+      
+      if (!hasPushedHistory.current && window.location.pathname === '/') {
+        // Push a state so the back button can return here
+        window.history.pushState(null, '', window.location.pathname);
+        hasPushedHistory.current = true;
+      }
+    };
+
+    window.addEventListener('touchstart', handleInteraction, { passive: true });
+    window.addEventListener('mousedown', handleInteraction, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('mousedown', handleInteraction);
+    };
+  }, []);
+
+  useEffect(() => {
     const sections = [
       { id: 'home', path: '/' },
       { id: 'about', path: '/about' },
@@ -108,13 +131,7 @@ const Home = () => {
           const section = sections.find(s => s.id === entry.target.id);
           if (section) {
             if (window.location.pathname !== section.path) {
-              if (window.location.pathname === '/' && !hasPushedHistory.current) {
-                // Moving away from home for the first time, create a back entry
-                window.history.pushState(null, '', section.path);
-                hasPushedHistory.current = true;
-              } else {
-                window.history.replaceState(null, '', section.path);
-              }
+              window.history.replaceState(null, '', section.path);
               window.dispatchEvent(new CustomEvent('scroll-route-changed', { detail: section.path }));
             }
           }
